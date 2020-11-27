@@ -1,0 +1,44 @@
+<h2>Vprašanje</h2>
+<h3>Naslov: </h3>
+<h4>{{qst.title}}</h4>
+<h3>Opis:</h3>
+<h4>{{qst.content}}</h4>
+<h4>{{qst.postdate}}</h4>
+<hr>
+
+{{#if lastnik.isowner}}
+    {{#each ans}}
+        <div id="{{_id}}">
+            <p style="font-size: 16px">{{username}}</p> <br>
+            <p>{{content}}</p> <br>
+        </div>
+        <form action="/answers/accept/{{_id}}" method="get">
+            <input type="submit" value="Sprejmi odgovor">
+        </form>
+        <hr style="border-color:grey;">
+    {{/each}}
+
+{{else}}
+    {{#each ans}}
+        <div id="{{_id}}">
+            <p style="font-size: 16px">{{username}}</p> <br>
+            <p>{{content}}</p> <br>
+        </div>
+        <hr style="border-color:grey;">
+    {{/each}}
+{{/if}}
+
+
+
+{{#if user}}
+    <div>
+    <h3>Odgovori</h3>
+    <form  action="/answers" method="post">
+        <textarea rows="15" cols="100" name="answr" placeholder="Odgovor" required=""></textarea><br>
+        <input name="questionID" type="text" value="{{qst._id}}" hidden placeholder="{{qst._id}}">
+        <input type="submit" value="Odgovori"> <br>
+        <p>{{error}}</p>
+    </form>
+    </div>
+{{/if}}
+

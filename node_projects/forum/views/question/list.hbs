@@ -1,0 +1,13 @@
+<h2>Vprašanja:</h2> <hr>
+{{#each vpr}}
+    <div id="{{_id}}">
+        <h3>{{title}}</h3> <br>
+        <p>{{content}}</p> <br>
+        <p>Objavljeno: {{postdate}}</p> <br>
+        <p>Tags: {{tags}}</p>
+        <form action="/questions/{{_id}}" method="get">
+            <input type="submit" value="Pokaži več">
+        </form>
+        <hr style="border-color:grey;">
+    </div>
+{{/each}}

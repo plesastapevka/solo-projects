@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+  <head>
+    <title>StackFeriFlow</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
+  <body style="background-color: rgba(145,143,141,0.45)">
+  <div class="container-fluid">
+      <div class="row-fluid">
+        <div class="col-lg-12">
+            <h1 style="text-align: center">StackFeriFlow</h1>
+        </div>
+      </div>
+
+      <div class="col-lg-1">
+          <ul class="nav flex-column">
+              <li><a href="/">Domov</a></li>
+              {{#if user}}
+                  <li><a type="button" href="/users/profile">{{user.username}}</a></li>
+                  <li><a type="button" href="/questions/showask">Vprašaj</a></li>
+                  <li><a type="button" href="/users/logout">Odjava</a></li>
+              {{else}}
+                  <li><a href="/users/register">Registracija</a></li>
+                  <li><a href="/users/login">Prijava</a></li>
+              {{/if}}
+          </ul>
+      </div>
+
+      <div class="col-lg-10" style="padding-right:20px; border-left: 1px solid #000000; border-right: 1px solid #000000;">
+        {{{body}}}
+      </div>
+
+      <div class="col-lg-1">
+          <p>REKLAME</p>
+          <p>REKLAME</p>
+          <p>REKLAME</p>
+          <p>REKLAME</p>
+          <p>REKLAME</p>
+          <p>REKLAME</p>
+          <p>REKLAME</p>
+      </div>
+  </div>
+
+  </body>
+</html>

@@ -1,0 +1,16 @@
+﻿<Window x:Class="vezne_tocke.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:vezne_tocke"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="1060" Width="1893">
+    <Grid Background="#FF3F3F46">
+        <Image x:Name="image1" MouseDown="uploadImage1" Source="C:\Users\urban\OneDrive - Univerza v Mariboru\3_letnik\2_semester\GIS\vaje\vaja03_vezne_tocke\placeholder.png" HorizontalAlignment="Left" Height="740" Margin="10,10,0,0" VerticalAlignment="Top" Width="777" OpacityMask="#FFFF1515"/>
+        <Image x:Name="image2" MouseDown="uploadImage2" Source="C:\Users\urban\OneDrive - Univerza v Mariboru\3_letnik\2_semester\GIS\vaje\vaja03_vezne_tocke\placeholder.png" HorizontalAlignment="Left" Height="740" Margin="1098,10,0,0" VerticalAlignment="Top" Width="777"/>
+        <Button x:Name="startButton" Content="Generate" HorizontalAlignment="Left" Margin="1800,999,0,0" VerticalAlignment="Top" Width="75" Click="startButton_Click"/>
+        <Label x:Name="label" Content="Label" HorizontalAlignment="Left" Margin="10,993,0,0" VerticalAlignment="Top"/>
+        <Image x:Name="imagefinal" HorizontalAlignment="Left" Height="835" Margin="241,70,0,0" VerticalAlignment="Top" Width="1351"/>
+    </Grid>
+</Window>

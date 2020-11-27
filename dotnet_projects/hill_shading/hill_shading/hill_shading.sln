@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30011.22
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "hill_shading", "hill_shading\hill_shading.csproj", "{830E08E9-9C8E-4FA6-B232-BE21263D1953}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{830E08E9-9C8E-4FA6-B232-BE21263D1953}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{830E08E9-9C8E-4FA6-B232-BE21263D1953}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{830E08E9-9C8E-4FA6-B232-BE21263D1953}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{830E08E9-9C8E-4FA6-B232-BE21263D1953}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE810098-8F2A-46EC-87C7-F4040E6D4EB0}
+	EndGlobalSection
+EndGlobal

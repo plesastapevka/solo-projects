@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PlaylistToExport xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <id>0</id>
+  <naslov>playlist1</naslov>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource />
+    <title>B.o.B - Airplanes ft. Hayley Williams of Paramore [OFFICI</title>
+    <Artist>unknown</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:03:11</Duration>
+    <songID>0</songID>
+    <ImageSource />
+    <Title>B.o.B - Airplanes ft. Hayley Williams of Paramore [OFFICI</Title>
+    <xmlID>0</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\B.o.B - Airplanes ft. Hayley Williams of Paramore [OFFICI.mp3</PathLocation>
+    <artist>unknown</artist>
+    <desc>unknown</desc>
+    <duration>00:03:11</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource />
+    <title>Curbi - 51 (Official Music Video)</title>
+    <Artist>unknown</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:03:07</Duration>
+    <songID>0</songID>
+    <ImageSource />
+    <Title>Curbi - 51 (Official Music Video)</Title>
+    <xmlID>1</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Curbi - 51 (Official Music Video).mp3</PathLocation>
+    <artist>unknown</artist>
+    <desc>unknown</desc>
+    <duration>00:03:07</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource>file:///C:/Users/urban/Dropbox/Slike/homies.jpg</imageSource>
+    <title>51</title>
+    <Artist>Curbi</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:03:07</Duration>
+    <Genre>EDM</Genre>
+    <songID>0</songID>
+    <ImageSource>file:///C:/Users/urban/Dropbox/Slike/homies.jpg</ImageSource>
+    <Title>51</Title>
+    <xmlID>2</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Curbi - 51 (Official Music Video).mp3</PathLocation>
+    <artist>Curbi</artist>
+    <desc>unknown</desc>
+    <duration>00:03:07</duration>
+    <genre>EDM</genre>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource>pack://application:,,,/img/denada.jpg</imageSource>
+    <title>Grits - My Life Be Like (Ooh-Aah) with lyrics</title>
+    <Artist>Grits</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:03:53</Duration>
+    <Genre>alter</Genre>
+    <songID>0</songID>
+    <ImageSource>pack://application:,,,/img/denada.jpg</ImageSource>
+    <Title>Grits - My Life Be Like (Ooh-Aah) with lyrics</Title>
+    <xmlID>3</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Grits - My Life Be Like (Ooh-Aah) with lyrics.mp3</PathLocation>
+    <artist>Grits</artist>
+    <desc>unknown</desc>
+    <duration>00:03:53</duration>
+    <genre>alter</genre>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource>file:///C:/Users/urban/Dropbox/Slike/cartoonSquare.JPG</imageSource>
+    <title>Goosebumps Remix</title>
+    <Artist>Skrillex</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:02:33</Duration>
+    <songID>0</songID>
+    <ImageSource>file:///C:/Users/urban/Dropbox/Slike/cartoonSquare.JPG</ImageSource>
+    <Title>Goosebumps Remix</Title>
+    <xmlID>4</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Skrillex  JOYRYDE &amp; Matroda - Goosebumps Breed (Music Video).mp3</PathLocation>
+    <artist>Skrillex</artist>
+    <desc>unknown</desc>
+    <duration>00:02:33</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource />
+    <title>Skrillex &amp; Habstrakt - Chicken Soup  [Official Audio]</title>
+    <Artist>unknown</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:03:27</Duration>
+    <songID>0</songID>
+    <ImageSource />
+    <Title>Skrillex &amp; Habstrakt - Chicken Soup  [Official Audio]</Title>
+    <xmlID>5</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Skrillex &amp; Habstrakt - Chicken Soup  [Official Audio].mp3</PathLocation>
+    <artist>unknown</artist>
+    <desc>unknown</desc>
+    <duration>00:03:27</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource />
+    <title>Curbi - 51 (Official Music Video)</title>
+    <Artist>unknown</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:03:07</Duration>
+    <songID>0</songID>
+    <ImageSource />
+    <Title>Curbi - 51 (Official Music Video)</Title>
+    <xmlID>6</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Curbi - 51 (Official Music Video).mp3</PathLocation>
+    <artist>unknown</artist>
+    <desc>unknown</desc>
+    <duration>00:03:07</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource />
+    <title>Tokyo Drift - Teriyaki Boyz [ MUSIC VIDEO ] HD</title>
+    <Artist>unknown</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:04:17</Duration>
+    <songID>0</songID>
+    <ImageSource />
+    <Title>Tokyo Drift - Teriyaki Boyz [ MUSIC VIDEO ] HD</Title>
+    <xmlID>7</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Tokyo Drift - Teriyaki Boyz [ MUSIC VIDEO ] HD.mp3</PathLocation>
+    <artist>unknown</artist>
+    <desc>unknown</desc>
+    <duration>00:04:17</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource />
+    <title>tajtowillrockyou</title>
+    <Artist>unknown</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:00:15</Duration>
+    <songID>0</songID>
+    <ImageSource />
+    <Title>tajtowillrockyou</Title>
+    <xmlID>8</xmlID>
+    <PathLocation>C:\Users\urban\Dropbox\Slike\tajtowillrockyou.mp4</PathLocation>
+    <artist>unknown</artist>
+    <desc>unknown</desc>
+    <duration>00:00:15</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+  <pesmi>
+    <IsPlaying>false</IsPlaying>
+    <imageSource />
+    <title>Grits - My Life Be Like (Ooh-Aah) with lyrics</title>
+    <Artist>unknown</Artist>
+    <Desc>unknown</Desc>
+    <Duration>00:03:53</Duration>
+    <songID>0</songID>
+    <ImageSource />
+    <Title>Grits - My Life Be Like (Ooh-Aah) with lyrics</Title>
+    <xmlID>9</xmlID>
+    <PathLocation>C:\Users\urban\Desktop\Music\Grits - My Life Be Like (Ooh-Aah) with lyrics.mp3</PathLocation>
+    <artist>unknown</artist>
+    <desc>unknown</desc>
+    <duration>00:03:53</duration>
+    <isPlaying>false</isPlaying>
+  </pesmi>
+</PlaylistToExport>
