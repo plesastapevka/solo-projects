@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <%- include('partials/head'); %>
+</head>
+
+<body>
+  <header>
+    <%- include('partials/header'); %>
+  </header>
+  <main>
+    <div class="container-fluid">
+      <% lists.forEach(function(list) { %>
+      <div class="card col-auto text-center">
+        <div class="card-body">
+          <h5 class="card-title"><%=list.title%></h5>
+          <% list.tags.forEach(function(tag) { %>
+          <span class="badge badge-pill badge-dark"><%= tag %></span>
+          <% }); %>
+          <footer>
+            <div class="btn-group" style="padding-top: 10px;">
+              <a href="/list/<%= list._id %>" class="btn btn-primary">Select</a>
+              <a href="/list/edit/<%= list._id %>" class="btn btn-dark">Edit</a>
+              <a href="/list/delete/<%= list._id %>" class="btn btn-danger">Delete</a>
+            </div>
+          </footer>
+        </div>
+      </div>
+      <% }); %>
+    </div>
+    <form action="/list/add" method="post" class="col-auto">
+      <div class="form-group">
+        <input type="text" class="form-control" id="title" name="title" aria-describedby="title" placeholder="Title"
+          required />
+        <input type="text" class="form-control" id="tags" name="tags" aria-describedby="tags"
+          placeholder="Tags separated with space" />
+      </div>
+      <button type="submit" class="btn btn-primary">Add</button>
+    </form>
+  </main>
+</body>
+<footer>
+  <%- include('partials/footer'); %>
+</footer>
+
+</html>

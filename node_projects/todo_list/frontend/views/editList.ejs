@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body>
+    <header><%- include('partials/header'); %></header>
+    <main>
+        <div class="container-fluid">
+            <form action="/list/update/<%= list._id %>" method="post" class="col-auto">
+                <div class="form-group">
+                    <input type="text" class="form-control" id="title" name="title" aria-describedby="title"
+                        placeholder="Title" value="<%= list.title %>" required />
+                    <input type="text" class="form-control" id="tags" name="tags" value="<%= list.tags.join(" ") %>"
+                        aria-describedby="tags" placeholder="Tags separated with space" />
+                </div>
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </main>
+</body>
+<footer><%- include('partials/footer'); %></footer>
+
+</html>

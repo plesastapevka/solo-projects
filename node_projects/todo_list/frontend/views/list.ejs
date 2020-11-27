@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <%- include('partials/head'); %>
+</head>
+
+<body>
+    <header><%- include('partials/header'); %></header>
+    <main>
+        <div class="container-fluid">
+            <% tasks.forEach(function(task) { %>
+            <div class="card col-auto text-center">
+                <div class="card-body">
+                    <h4 class="card-title"><%=task.title%></h4>
+                    <p class="card-text"><%= task.description %></p>
+                    <div class="btn-group">
+                        <% if(task.status=="IN PROGRESS"){ %>
+                        <button type="button" class="btn btn-sm btn-primary dropdown-toggle" data-toggle="dropdown">
+                            <%= task.status %>
+                        </button>
+                        <% } else if (task.status=="TODO"){ %>
+                        <button type="button" class="btn btn-sm btn-warning dropdown-toggle" data-toggle="dropdown">
+                            <%= task.status %>
+                        </button>
+                        <% } else { %>
+                        <button type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown">
+                            <%= task.status %>
+                        </button>
+                        <% } %>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item"
+                                href="/tasks/status/<%= task.ownerId %>?id=<%= task._id %>&status=TODO">TODO</a>
+                            <a class="dropdown-item"
+                                href="/tasks/status/<%= task.ownerId %>?id=<%= task._id %>&status=IN PROGRESS">IN
+                                PROGRESS</a>
+                            <a class="dropdown-item"
+                                href="/tasks/status/<%= task.ownerId %>?id=<%= task._id %>&status=DONE">DONE</a>
+                        </div>
+                    </div>
+                    <div class="container-fluid">
+                        <% if (typeof task.date !== "undefined" && task.date !== null && task.date !== "null") { %>
+                            <% if (typeof task.reminder !== "undefined" && task.reminder !== null && task.reminder !== "null" && new Date(task.reminder).getTime() - new Date().getTime() < 0) { %>
+                                <p class="text-danger">Due date:
+                                <%= new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: '2-digit', hour: 'numeric', minute: 'numeric'}).format(new Date(task.date)); %>
+                                </p>
+                            <% } else { %>
+                                <p>Due date:
+                                <%= new Intl.DateTimeFormat('en-GB', { year: 'numeric', month: 'long', day: '2-digit', hour: 'numeric', minute: 'numeric'}).format(new Date(task.date)); %>
+                                </p>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <div class="container-fluid">
+                        <% task.tags.forEach(function(tag) { %>
+                        <span class="badge badge-pill badge-dark"><%= tag %></span>
+                        <% }); %>
+                    </div>
+                    <div class="btn-group" style="padding-top: 10px;">
+                        <a href="/tasks/edit/<%= task.ownerId %>?id=<%= task._id %>"
+                            class="btn btn-sm btn-dark">Edit</a>
+                        <a href="/tasks/delete/<%= task.ownerId %>?id=<%= task._id %>"
+                            class="btn btn-sm btn-danger">Delete</a>
+                    </div>
+                </div>
+            </div>
+            <% }); %>
+        </div>
+        <form action="/tasks/add/<%= ownerId %>" method="post" class="col-auto">
+            <div class="form-group">
+                <input type="text" class="form-control" id="title" name="title" aria-describedby="title"
+                    placeholder="Title" required />
+                <input type="text" class="form-control" id="desc" name="description" aria-describedby="description"
+                    placeholder="Description" />
+                <input type="text" class="form-control" id="tags" name="tags" aria-describedby="tags"
+                    placeholder="Tags separated with space" />
+                <label for="date">Due date:</label>
+                <input class="form-control" type="datetime-local" name="date" id="date">
+                <label for="reminder">Reminder:</label>
+                <input class="form-control" type="datetime-local" name="reminder" id="reminder">
+                <div class="col-sm-10">
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="status" id="gridRadios1" value="TODO"
+                                checked>
+                            TODO
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="status" id="gridRadios2"
+                                value="IN PROGRESS">
+                            IN PROGRESS
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="radio" name="status" id="gridRadios3" value="DONE">
+                            DONE
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Add</button>
+        </form>
+    </main>
+</body>
+<footer><%- include('partials/footer'); %></footer>
+
+</html>
