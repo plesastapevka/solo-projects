@@ -1,0 +1,4 @@
+#!/bin/bash
+
+echo "Run $PROJECTPATH$PROJECTNAME"
+$PROJECTPATH\build/$PROJECTNAME

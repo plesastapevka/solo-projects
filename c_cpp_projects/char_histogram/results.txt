@@ -1,0 +1,381 @@
+Now computing tests for mmap ...\n
+Type: mmap
+Time elapsed: 409.000000 milliseconds
+Option: mmap
+File: 256b.txt
+Bytes: 0
+
+Type: mmap
+Time elapsed: 194.000000 milliseconds
+Option: mmap
+File: 512b.txt
+Bytes: 0
+
+Type: mmap
+Time elapsed: 176.000000 milliseconds
+Option: mmap
+File: 1kb.txt
+Bytes: 0
+
+Type: mmap
+Time elapsed: 987.000000 milliseconds
+Option: mmap
+File: 256kb.txt
+Bytes: 0
+
+Type: mmap
+Time elapsed: 575.000000 milliseconds
+Option: mmap
+File: 512kb.txt
+Bytes: 0
+
+Type: mmap
+Time elapsed: 412.000000 milliseconds
+Option: mmap
+File: 1mb.txt
+Bytes: 0
+
+Type: mmap
+Time elapsed: 4696.000000 milliseconds
+Option: mmap
+File: 256mb.txt
+Bytes: 0
+
+\n
+Now computing tests for read ...\n
+Type: read
+Time elapsed: 98.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 1
+
+Type: read
+Time elapsed: 345.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 256
+
+Type: read
+Time elapsed: 582.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 512
+
+Type: read
+Time elapsed: 841.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 1024
+
+Type: read
+Time elapsed: 1716.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 2048
+
+Type: read
+Time elapsed: 5807.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 4096
+
+Type: read
+Time elapsed: 35179.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 8192
+
+Type: read
+Time elapsed: 250164.000000 milliseconds
+Option: read
+File: 256b.txt
+Bytes: 16384
+
+Type: read
+Time elapsed: 99.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 1
+
+Type: read
+Time elapsed: 312.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 256
+
+Type: read
+Time elapsed: 673.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 512
+
+Type: read
+Time elapsed: 1079.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 1024
+
+Type: read
+Time elapsed: 2208.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 2048
+
+Type: read
+Time elapsed: 6140.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 4096
+
+Type: read
+Time elapsed: 37029.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 8192
+
+Type: read
+Time elapsed: 257196.000000 milliseconds
+Option: read
+File: 512b.txt
+Bytes: 16384
+
+Type: read
+Time elapsed: 110.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 1
+
+Type: read
+Time elapsed: 343.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 256
+
+Type: read
+Time elapsed: 784.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 512
+
+Type: read
+Time elapsed: 1511.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 1024
+
+Type: read
+Time elapsed: 3151.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 2048
+
+Type: read
+Time elapsed: 6836.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 4096
+
+Type: read
+Time elapsed: 37789.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 8192
+
+Type: read
+Time elapsed: 255776.000000 milliseconds
+Option: read
+File: 1kb.txt
+Bytes: 16384
+
+Type: read
+Time elapsed: 72.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 1
+
+Type: read
+Time elapsed: 299.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 256
+
+Type: read
+Time elapsed: 706.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 512
+
+Type: read
+Time elapsed: 1404.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 1024
+
+Type: read
+Time elapsed: 4227.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 2048
+
+Type: read
+Time elapsed: 15776.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 4096
+
+Type: read
+Time elapsed: 86782.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 8192
+
+Type: read
+Time elapsed: 431380.000000 milliseconds
+Option: read
+File: 256kb.txt
+Bytes: 16384
+
+Type: read
+Time elapsed: 66.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 1
+
+Type: read
+Time elapsed: 340.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 256
+
+Type: read
+Time elapsed: 707.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 512
+
+Type: read
+Time elapsed: 1493.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 1024
+
+Type: read
+Time elapsed: 4294.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 2048
+
+Type: read
+Time elapsed: 16614.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 4096
+
+Type: read
+Time elapsed: 86162.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 8192
+
+Type: read
+Time elapsed: 434642.000000 milliseconds
+Option: read
+File: 512kb.txt
+Bytes: 16384
+
+Type: read
+Time elapsed: 100.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 1
+
+Type: read
+Time elapsed: 347.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 256
+
+Type: read
+Time elapsed: 747.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 512
+
+Type: read
+Time elapsed: 1390.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 1024
+
+Type: read
+Time elapsed: 4525.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 2048
+
+Type: read
+Time elapsed: 16488.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 4096
+
+Type: read
+Time elapsed: 89720.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 8192
+
+Type: read
+Time elapsed: 463032.000000 milliseconds
+Option: read
+File: 1mb.txt
+Bytes: 16384
+
+Type: read
+Time elapsed: 69.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 1
+
+Type: read
+Time elapsed: 306.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 256
+
+Type: read
+Time elapsed: 761.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 512
+
+Type: read
+Time elapsed: 1430.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 1024
+
+Type: read
+Time elapsed: 4470.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 2048
+
+Type: read
+Time elapsed: 15129.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 4096
+
+Type: read
+Time elapsed: 85596.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 8192
+
+Type: read
+Time elapsed: 439530.000000 milliseconds
+Option: read
+File: 256mb.txt
+Bytes: 16384
+

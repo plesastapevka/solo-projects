@@ -1,0 +1,7 @@
+help
+new
+activate
+add
+build
+run
+test

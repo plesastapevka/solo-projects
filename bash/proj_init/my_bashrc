@@ -1,0 +1,23 @@
+# preberemo privzete nastavitve
+source ~/.bashrc
+PS1="$PROJECTNAME: % "
+
+# tukaj lahko sedaj nastavimo svojo konfiguracijo
+# PS1 in drugo, ...
+
+function complete_function {
+    # $1 - ime ukaza
+    # $2 - trenutni parameter, ki ga dopolnjujemo
+    # $3 - prejsnji parameter
+    if [[ "$3" == "new" || "$3" == "activate" ]]
+    then
+        COMPREPLY=("-d")
+    elif [[ "$3" == "build" ]]
+    then
+        COMPREPLY=("-r" "-d")
+    elif [[ "$3" == "test" ]]
+    then
+        COMPREPLY=("-l" "-v")
+    fi
+}
+complete -W "activate build run help test new add" -F complete_function ./project.sh
