@@ -1,0 +1,10 @@
+https://medium.com/mpi-cluster-setup/mpi-clusters-within-a-lan-77168e0191b1
+On Server:
+sudo service nfs-kernel-server start
+
+On all Clusters:
+sudo mount -t nfs 10.0.2.15:/home/urban/cmake-build-debug-remote ~/cmake-build-debug-remote
+
+To run a program (on Cluster0):
+mpirun -n 2 --hostfile hosts.txt vaja03
+

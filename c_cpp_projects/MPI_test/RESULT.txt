@@ -1,0 +1,5 @@
+After 93260 PingPongs, the value was: 270.505
+After 964 PingPongs, the value was: 270.515
+After 311752 PingPongs, the value was: 270.508
+After 194664 PingPongs, the value was: 270.515
+After 19528 PingPongs, the value was: 270.506

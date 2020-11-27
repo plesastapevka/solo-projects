@@ -1,0 +1,10 @@
+#!/bin/bash/sh
+
+# Instalacija OpenMPI na VM
+for ((i=0; i<=4; i++)); do
+    ssh root@127.0.0.1 -p 560${i} sudo apt-get install openmpi-bin
+done
+
+# spodnja vrstica zažene mpi execution na Clusterih, ki so v hosts.txt datoteki
+mpirun --hostfile hosts.txt vaja03
+#After 443184 PingPongs, the value was: 270.508
