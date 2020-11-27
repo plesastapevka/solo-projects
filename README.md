@@ -1,5 +1,3 @@
-# Personal repo
-
 ## Intro
 
 This repository consists of mulitple projects - from x86 ASM to Python and C# and many more. This is my treasury of all the projects and small programs I have been working on since I found out my true passion.
