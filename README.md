@@ -4,6 +4,7 @@ This repository consists of mulitple projects - from x86 ASM to Python and C# an
 
 ## Some projects worth mentioning:
 **C/C++:**
+* [MPI Battleship Simulation](c_cpp_projects/MPI_battleship)
 * [Gauss Elimination](c_cpp_projects/gauss_elimination)
 * [RSA](c_cpp_projects/rsa)
 * [Primer Numbers Generator](c_cpp_projects/prime_numbers_generator)
