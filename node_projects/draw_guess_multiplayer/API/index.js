@@ -5,7 +5,11 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const app = require("express")(cors());
 const http = require("http").createServer(app);
-const io = require("socket.io")(http);
+const io = require("socket.io")(http, {
+    cors: {
+        origin: "*"
+    }
+});
 require("dotenv").config();
 
 // MongoDB init
@@ -17,7 +21,6 @@ mongoose.Promise = global.Promise;
 
 
 // Main REST API init
-
 const port = process.env.API_PORT;
 const ip_address = process.env.IP_ADDR;
 

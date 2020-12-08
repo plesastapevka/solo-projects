@@ -1,2 +1,36 @@
-<h1>{{title}}</h1>
-<p>Welcome to {{title}}</p>
+<div class="display-3 text-center">
+    <h1 id="mainTitle">{{title}}</h1>
+</div>
+
+<script src="javascripts/canvasDriver.js"></script>
+<script src="javascripts/socketsDriver.js"></script>
+
+<div class="container" id="canvasMain">
+    <div class="row">
+        <div class="col-lg-2">
+            <ul>
+                <tr>
+                    <td>
+                        testdata
+                    </td>
+                </tr>
+            </ul>
+        </div>
+        <div class="col-lg-offset-8">
+        <canvas id="can" width="500px" height="500px" style="border:2px solid;"></canvas>
+
+        </div>
+        <div class="col-lg-2">
+            <div onclick="color()">
+                <input type="color" id="colorPicker" name="colorPicker" value="#000000">
+                <label for="colorPicker">Color</label>
+            </div>
+            <div>
+                <input type="button" value="Start" id="btn" size="30" onclick="init()"
+                    style="position:absolute;left:10%;">
+                <input type="button" value="Clear" id="clr" size="30" onclick="erase()"
+                    style="position:absolute;right:10%">
+            </div>
+        </div>
+    </div>
+</div>
