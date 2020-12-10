@@ -10,6 +10,8 @@ const io = require("socket.io")(http, {
         origin: "*"
     }
 });
+
+require("./socket/socketDriver")(io);
 require("dotenv").config();
 
 // MongoDB init
@@ -44,9 +46,9 @@ app.use((err, req, res, next) => {
     next();
 })
 
-io.on("connection", (socket) => {
-    console.log("Connected");
-});
+// io.on("connection", (socket) => {
+//     console.log("Connected");
+// });
 
 http.listen(port, ip_address, () => {
     console.log(`API running on ${ip_address}:${port}`);

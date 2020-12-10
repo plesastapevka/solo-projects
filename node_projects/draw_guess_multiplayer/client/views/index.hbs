@@ -1,36 +1,54 @@
 <div class="display-3 text-center">
     <h1 id="mainTitle">{{title}}</h1>
 </div>
-
+<script src="components/rivets/dist/rivets.bundled.min.js"></script>
+</script>
 <script src="javascripts/canvasDriver.js"></script>
-<script src="javascripts/socketsDriver.js"></script>
-
-<div class="container" id="canvasMain">
+<script src="javascripts/uiDriver.js"></script>
+<input type="hidden" id="userId" value="{{session.userId}}">
+<input type="hidden" id="username" value="{{session.username}}">
+<div class="container-fluid" id="canvasMain">
     <div class="row">
-        <div class="col-lg-2">
-            <ul>
-                <tr>
-                    <td>
-                        testdata
-                    </td>
-                </tr>
-            </ul>
+        <div class="col-lg-4">
+            <form action="/logout" method="post">
+                <p class="float-left">Hey, <label id="user">{{session.username}}</label></p> <input type="submit"
+                    class='btn btn-outline-danger float-left' value="Logout">
+            </form>
+            <form action="/room" method="post">
+                <input class="text float-left" id="createRoomName" name="name" type="text" placeholder="Room name">
+                <input class="btn btn-primary float-left" type="submit" value="Create room" id="startBtn" size="30">
+            </form>
+            <table class="table table-striped" style="width: 100%;" id="roomTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Room name</th>
+                        <th scope="col">Players</th>
+                        <th scope="col">Room ID</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {{#each rooms}}
+                    <tr id="{{uuid}}" class="clickable-row">
+                        <td id="roomName" value="{{name}}" scope="row">{{name}}</td>
+                        <td>{{players.length}}</td>
+                        <td><input type="button" class="btn btn-link" value="{{uuid}}" onclick="joinRoom(this.value)"></td>
+                    </tr>
+                    {{/each}}
+                </tbody>
+            </table>
         </div>
-        <div class="col-lg-offset-8">
-        <canvas id="can" width="500px" height="500px" style="border:2px solid;"></canvas>
+        <div id="mainContainer" class="col-lg-6" style="width: 400px;height: 700px;">
+            <canvas id="can" style="border:2px solid;"></canvas>
+            <div id="toolbox">
+                <input class="float-left" type="color" id="colorPicker" name="colorPicker" value="#000000">
+                <input class="btn btn-primary float-right" type="button" value="Start" id="startBtn" onclick="start()"
+                    size="30" disabled>
+                <input class="btn btn-danger float-right" type="button" value="Clear" id="clearBtn" onclick="erase()"
+                    size="30">
+            </div>
+        </div>
+        <div class="col-lg-2">
 
-        </div>
-        <div class="col-lg-2">
-            <div onclick="color()">
-                <input type="color" id="colorPicker" name="colorPicker" value="#000000">
-                <label for="colorPicker">Color</label>
-            </div>
-            <div>
-                <input type="button" value="Start" id="btn" size="30" onclick="init()"
-                    style="position:absolute;left:10%;">
-                <input type="button" value="Clear" id="clr" size="30" onclick="erase()"
-                    style="position:absolute;right:10%">
-            </div>
         </div>
     </div>
 </div>

@@ -4,15 +4,17 @@ const router = express.Router();
 const RoomModel = require("../models/roomModel");
 const bcrypt = require("bcrypt");
 const saltRounds = 10;
+const uuid = require("uuid");
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
 
 // PUT Create room
 router.put("/", async (req, res) => {
-  let ownerId = req.body.id;
-  let token = req.headers.bearer;
+  let ownerId = req.body.ownerId;
+  let token = req.body.bearer;
   let name = req.body.name;
-
+  console.log("Add room!");
+  console.log(token);
   if (!token) return res.status(403).send({ message: "Unauthorized!" });
 
   await jwt.verify(token, process.env.PRIVATE_KEY, (err, decoded) => {
@@ -23,9 +25,10 @@ router.put("/", async (req, res) => {
         .status(500)
         .send({ message: "There was an error uploading room." });
     }
-
+    console.log("Creating model");
     // Set up new room model
     let newRoom = {
+      uuid: uuid.v1(),
       ownerId: ownerId,
       name: name,
       players: [],
@@ -35,6 +38,7 @@ router.put("/", async (req, res) => {
       if (room) {
         return res.status(500).send({ message: "Room already exists." });
       }
+      console.log("creating");
       RoomModel.create(newRoom, (err, updatedRoom) => {
         if (err) return res.status(500).send(err);
 
@@ -71,7 +75,7 @@ router.delete("/:id", async (req, res) => {
 router.get("/", async (req, res) => {
     await RoomModel.find({}, (err, rooms) => {
         if (err) return res.status(500).send({ message: "Error fetching database." });
-        if (rooms.length == 0) return res.status(404).send({ message: "No rooms found." });
+        if (rooms.length == 0) return res.status(200).send({ message: "No rooms found." });
 
         return res.status(200).send(rooms);
     });

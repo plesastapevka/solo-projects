@@ -4,6 +4,7 @@ const Joi = require("joi");
 require("dotenv").config()
 
 const RoomSchema = new Schema({
+    uuid: { type: String, required: true },
     ownerId: { type: String, required: true },
     name: { type: String, required: true },
     players: [String]

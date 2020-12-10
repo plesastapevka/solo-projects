@@ -1,0 +1,25 @@
+<div id="login">
+
+  <h1>Can you <strong>GUESS IT?</strong></h1>
+
+  <div class="login-box shadow">
+   <form action="/login" method='post' class='login-form'>
+
+     <i id='username' class='icon-user'></i>
+     <input id="username" autocomplete="off" placeholder="Username" class='dark' type="text" name="username">
+
+     <i id='password' class='icon-lock'></i>
+     <input id="password" autocomplete="off" placeholder="Password" class='dark' type="password" name="password">
+
+    <input type="submit" class='button large' value="Login">
+   
+   </form>
+
+  </div>
+
+   <div class="login-footer">
+       <p style="color:red;">{{ message }}</p>
+<a href="/register" target="_BLANK">Don't have an acccount?</a>
+   </div>
+
+</div>
