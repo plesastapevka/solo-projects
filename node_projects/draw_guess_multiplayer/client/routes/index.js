@@ -64,39 +64,4 @@ router.post("/login", (req, res, next) => {
     });
 });
 
-// POST create room
-router.post("/room", async (req, res, next) => {
-  body = {
-    name: req.body.name,
-    ownerId: req.session.userId,
-    username: req.session.username,
-    bearer: req.session.bearer,
-  };
-  axios
-    .put("/room", body)
-    .then((resp) => {
-      res.redirect("/");
-    })
-    .catch((err) => {
-      res.redirect("/");
-    });
-});
-
-// POST join room
-router.post("/join", async (req, res, next) => {
-  var data = {
-    name: req.body.name,
-    uuid: req.body.uuid,
-    username: req.session.username,
-    userId: req.session.userId
-  }
-  socket.emit("joinRoom", data);
-  res.status(204).send();
-});
-
-router.post("/logout", (req, res, next) => {
-  req.session.destroy();
-  res.redirect("/");
-});
-
 module.exports = router;
