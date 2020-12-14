@@ -54,7 +54,7 @@ a {
 
 #yourUsername {
   font-size: 12px;
-  text-align: right;
+  text-align: left;
 }
 
 #rawMessage {
@@ -62,7 +62,7 @@ a {
 }
 
 #userMessage {
-  text-align: right;
+  text-align: left;
   padding: 10px;
   background-color: #c4c4c4;
   border-radius: 25px;
@@ -84,7 +84,7 @@ a {
   bottom: 5px;
 }
 
-#msgSendBtn {
+#msgSendBtn #msgGuessBtn {
   display: inline-block;
   width: 10%;
   position: absolute;
@@ -97,7 +97,7 @@ a {
   color: #4c4c4c;
   font-size: 15px;
   min-height: 35px;
-  width: 90%;
+  width: 80%;
 }
 
 #message {

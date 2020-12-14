@@ -45,8 +45,8 @@
             <div class="row">
                 <input class="btn btn-primary float-left" type="button" value="Start" id="startBtn" onclick="start()"
                     size="30" disabled>
-                <input class="btn btn-danger float-left" type="button" value="Leave" id="startBtn" onclick="leaveRoom()"
-                    size="30">
+                <input class="btn btn-danger float-left" type="button" value="Leave" id="leaveBtn" onclick="leaveRoom()"
+                    size="30" disabled>
             </div>
             <div class="row">
                 <div id="roomStatus" style="text-align: center;">
@@ -68,28 +68,16 @@
                 <div class="chatWrapper">
                     <div id="chat">
                         <div id="messages">
-                            <div id="message">
-                                <div id="opponentUsername">
-                                    <span>Terezij<span>
-                                </div>
-                                <div id="rawMessage">
-                                    <p id="oponnentMessage">Pripravi se na poraz</p>
-                                </div>
-                            </div>
-                            <div id="message" class="float-right">
-                                <div id="yourUsername">
-                                    <span>admin</span>
-                                </div>
-                                <div id="rawMessage">
-                                    <p id="userMessage">Ni šanse mamek</p>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                     <div id="messageInput">
                         <div id="messageInputCore">
                             <input type="text" id="messageBox" placeholder="Type a message" />
-                            <button class="btn btn-primary" id="msgSendBtn" type="button">Send</button>
+                            <button class="btn btn-primary" id="msgSendBtn" onclick="sendMsg()"
+                                type="button">Send</button>
+                            <button class="btn btn-success" id="msgGuessBtn" onclick="guess()"
+                                type="button">Guess</button>
                         </div>
                     </div>
                 </div>

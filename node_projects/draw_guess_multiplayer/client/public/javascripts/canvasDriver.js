@@ -141,6 +141,7 @@ function save() {
 }
 
 function findxy(res, e) {
+  rect = canvas.getBoundingClientRect();
   if (res == "down") {
     prevX = currX;
     prevY = currY;

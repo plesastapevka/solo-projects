@@ -15,9 +15,9 @@ function removeRoom(id) {
 
 function userDisconnected(sid, socket, username) {
   let index = owners.findIndex((o) => o === sid);
-  var username;
   var room;
   if (index !== -1) {
+    // Is an owner
     let ownerId = owners[index];
     owners.splice(index, 1)[0];
     let roomIndex = rooms.findIndex((r) => r.ownerId === ownerId);
@@ -27,17 +27,20 @@ function userDisconnected(sid, socket, username) {
       removeRoom(room.uuid);
     } else {
       let nestedIndex = room.players.findIndex((p) => p.socketId === sid);
-      username = room.players[nestedIndex].username;
+      // username = room.players[nestedIndex].username;
       room.players.splice(nestedIndex, 1)[0];
       room.ownerId = room.players[0].socketId;
       room.players[0].owner = true;
       owners.push(room.players[0].socketId);
     }
+    socket.to(room.uuid).emit("userDisconnected", username);
   } else {
+    // Not an owner
     rooms.forEach((r) => {
       let userIndex = r.players.findIndex((player) => player.socketId === sid);
       if (userIndex !== -1) {
-        username = r.players[userIndex].username;
+        // username = r.players[userIndex].username;
+        // console.log(username);
         r.players.splice(index, 1)[0];
         room = r;
         socket.to(room.uuid).emit("userDisconnected", username);
@@ -63,7 +66,6 @@ function joinRoom(data) {
     (p) => p.userId === data.userId
   );
   if (userIndex === -1) {
-    owners.push(data.socketId);
     rooms[index].players.push({
       userId: data.userId,
       username: data.username,
@@ -124,23 +126,29 @@ module.exports = (io) => {
 
     socket.on("createRoom", (data) => {
       let existIndex = rooms.findIndex((r) => r.name === data.name);
+      // check the name
       if (existIndex !== -1) {
         io.to(socket.id).emit("status", { code: 1, msg: "Choose different room name" });
         return;
       }
+      // check if owner
       if (owners.includes(socket.id)) {
+        io.to(socket.id).emit("status", { code: 1, msg: "Already an owner" });
+        return;
+      }
+      var userIndex;
+      var exists;
+      rooms.forEach((r) => {
+        userIndex = r.players.findIndex((player) => player.userId === data.userId);
+        if (userIndex !== -1) {
+          exists = true;
+        }
+      });
+      if (exists) {
         io.to(socket.id).emit("status", { code: 1, msg: "Already in a room" });
         return;
       }
-      // check if in any room
-
-      rooms.forEach((r) => {
-        let userIndex = r.players.findIndex((player) => player.userId === data.userId);
-        if (userIndex !== -1) {
-          io.to(socket.id).emit("status", { code: 1, msg: "Already in a room" });
-          return;
-        }
-      });
+      console.log("continuing")
 
       let guuid = uuid.v1();
       var room = {
@@ -158,13 +166,15 @@ module.exports = (io) => {
         owner: true
       };
       joinRoom(user);
+      owners.push(socket.id);
       socket.join(guuid);
       socket.broadcast.emit("roomUpdate", rooms);
+      io.to(socket.id).emit("playerJoined", { username: data.username });
+      socket.to(guuid).emit("playerJoined", { username: data.username });
       io.to(socket.id).emit("status", { msg: "Room created", code: 0, uuid: guuid });
     });
 
     socket.on("joinRoom", (data) => {
-      console.log("Join request");
       if (owners.includes(socket.id)) {
         io.to(socket.id).emit("status", { code: 1, msg: "Already an owner" })
         return;
@@ -181,9 +191,15 @@ module.exports = (io) => {
       }
     });
 
+    socket.on("newMsg", (data) => {
+      socket.to(data.uuid).emit("newMsg", data);
+      io.to(socket.id).emit("newMsg", data);
+    })
+
     socket.on("disconnect", () => {
       let index = clients.findIndex((c) => c.socketId === socket.id);
       let username = clients[index].username;
+      console.log("Username is: " + username);
       clients.splice(index, 1);
       userDisconnected(socket.id, socket, username);
     });
