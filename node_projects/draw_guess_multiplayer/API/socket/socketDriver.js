@@ -2,6 +2,39 @@ const uuid = require("uuid");
 const { remove } = require("../models/roomModel");
 const RoomModel = require("../models/roomModel");
 
+const words = [
+  "shop",
+  "dinosaurs",
+  "mine",
+  "taste",
+  "robin",
+  "van",
+  "education",
+  "person",
+  "son",
+  "division",
+  "mark",
+  "church",
+  "caption",
+  "bear",
+  "button",
+  "fairies",
+  "history",
+  "dime",
+  "note",
+  "cub",
+  "end",
+  "minute",
+  "plate",
+  "cent",
+  "tub",
+  "muscle",
+  "wall",
+  "drain",
+  "sand",
+  "summer"
+];
+
 let rooms = [{ uuid: uuid.v1(), ownerId: null, name: "Public", players: [] }];
 let owners = [];
 let clients = [];
@@ -11,6 +44,10 @@ function removeRoom(id) {
   if (index !== -1) {
     return rooms.splice(index, 1)[0];
   }
+}
+
+function randomWord() {
+  return words[Math.random() * (words.length - 0) + 0];
 }
 
 function userDisconnected(sid, socket, username) {

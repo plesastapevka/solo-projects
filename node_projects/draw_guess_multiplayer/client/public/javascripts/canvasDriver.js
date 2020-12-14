@@ -54,7 +54,6 @@ function init() {
     "mousedown",
     function (e) {
       findxy("down", e);
-      console.log(document.getElementById("currRoomId").value);
       data = {
         currX: currX,
         currY: currY,
