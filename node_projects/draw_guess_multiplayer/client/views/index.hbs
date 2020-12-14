@@ -50,8 +50,9 @@
             </div>
             <div class="row">
                 <div id="roomStatus" style="text-align: center;">
-                        <p>In lobby ...</p>
-                    </div>
+                    <p>In lobby ...</p>
+                </div>
+                <input type="hidden" id="currRoomId">
             </div>
             <div class="row">
                 <canvas id="can" style="border:2px solid;"></canvas>
@@ -61,6 +62,36 @@
                     <input class="float-left" type="color" id="colorPicker" name="colorPicker" value="#000000">
                     <input class="btn btn-danger float-left" type="button" value="Clear" id="clearBtn" onclick="erase()"
                         size="30">
+                </div>
+            </div>
+            <div class="row">
+                <div class="chatWrapper">
+                    <div id="chat">
+                        <div id="messages">
+                            <div id="message">
+                                <div id="opponentUsername">
+                                    <span>Terezij<span>
+                                </div>
+                                <div id="rawMessage">
+                                    <p id="oponnentMessage">Pripravi se na poraz</p>
+                                </div>
+                            </div>
+                            <div id="message" class="float-right">
+                                <div id="yourUsername">
+                                    <span>admin</span>
+                                </div>
+                                <div id="rawMessage">
+                                    <p id="userMessage">Ni šanse mamek</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="messageInput">
+                        <div id="messageInputCore">
+                            <input type="text" id="messageBox" placeholder="Type a message" />
+                            <button class="btn btn-primary" id="msgSendBtn" type="button">Send</button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

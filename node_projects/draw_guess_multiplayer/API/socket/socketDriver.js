@@ -22,6 +22,7 @@ function userDisconnected(sid, socket, username) {
     owners.splice(index, 1)[0];
     let roomIndex = rooms.findIndex((r) => r.ownerId === ownerId);
     room = rooms[roomIndex];
+    if (!room) return;
     if (room.players.length == 1) {
       removeRoom(room.uuid);
     } else {
@@ -107,7 +108,9 @@ module.exports = (io) => {
     });
 
     socket.on("mouse", (data) => {
-      socket.broadcast.emit("sync", data);
+      if (data.uuid !== "") {
+        socket.to(data.uuid).emit("sync", data);
+      }
     });
 
     socket.on("leaveRequest", (uuid) => {
@@ -157,7 +160,7 @@ module.exports = (io) => {
       joinRoom(user);
       socket.join(guuid);
       socket.broadcast.emit("roomUpdate", rooms);
-      io.to(socket.id).emit("status", { msg: "Room created", code: 0 });
+      io.to(socket.id).emit("status", { msg: "Room created", code: 0, uuid: guuid });
     });
 
     socket.on("joinRoom", (data) => {
@@ -170,7 +173,7 @@ module.exports = (io) => {
       data.owner = false;
       if (joinRoom(data)) {
         socket.join(data.uuid);
-        io.to(socket.id).emit("status", { msg: "Room joined", code: 0 });
+        io.to(socket.id).emit("status", { msg: "Room joined", code: 0, uuid: data.uuid });
         socket.to(data.uuid).emit("playerJoined", { username: data.username });
         console.log(data.username + " joined " + data.uuid);
       } else {

@@ -1,4 +1,4 @@
-let socket = io("http://localhost:3333");
+var socket = io("http://localhost:3333");
 var currentRoom;
 var canvas,
   ctx,
@@ -44,6 +44,7 @@ function init() {
         res: "move",
         dot_flag: dot_flag,
         flag: flag,
+        uuid: document.getElementById("currRoomId").value ? document.getElementById("currRoomId").value : ""
       };
       socket.emit("mouse", data);
     },
@@ -53,6 +54,7 @@ function init() {
     "mousedown",
     function (e) {
       findxy("down", e);
+      console.log(document.getElementById("currRoomId").value);
       data = {
         currX: currX,
         currY: currY,
@@ -64,6 +66,7 @@ function init() {
         res: "down",
         dot_flag: dot_flag,
         flag: flag,
+        uuid: document.getElementById("currRoomId").value ? document.getElementById("currRoomId").value : ""
       };
 
       socket.emit("mouse", data);
@@ -85,6 +88,7 @@ function init() {
         res: "up",
         dot_flag: dot_flag,
         flag: flag,
+        uuid: document.getElementById("currRoomId").value ? "" : document.getElementById("currRoomId").value
       };
       socket.emit("mouse", data);
     },
@@ -105,6 +109,7 @@ function init() {
         res: "out",
         dot_flag: dot_flag,
         flag: flag,
+        uuid: document.getElementById("currRoomId").value ? document.getElementById("currRoomId").value : ""
       };
       socket.emit("mouse", data);
     },
@@ -167,123 +172,3 @@ function findxy(res, e) {
 }
 
 $(init);
-
-socket.on("connect", () => {
-  socket.on("mouse", (data) => {});
-  socket.on("status", (status) => {
-    statusMsg(status);
-  });
-
-  socket.on("requestUsername", () => {
-    socket.emit("newUser", document.getElementById("username").value);
-  });
-
-  socket.on("sync", (data) => {
-    if (data.erase) {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    } else {
-      document.getElementById("can").disabled = true;
-      currX = data.currX;
-      currY = data.currY;
-      prevX = data.prevX;
-      prevY = data.prevY;
-      x = data.color;
-      y = data.size;
-      e = data.e;
-      flag = data.flag;
-      dot_flag = data.dot_flag;
-      res = data.res;
-      if (flag) {
-        draw();
-      }
-    }
-  });
-  socket.on("roomUpdate", (rooms) => {
-    updateRooms(rooms);
-  });
-  socket.on("roomStatusUpdate", (room) => {
-    currentRoom = room;
-    updateRoomStatus(room);
-  });
-
-  socket.on("disconnect", () => {});
-});
-
-function leaveRoom() {
-  socket.emit("leaveRequest", currentRoom.uuid);
-  currentRoom = null;
-  document.getElementById("playersTableBody").innerHTML = "<tr><td>Not in room</td><td></tr>";
-  document.getElementById(
-    "roomStatus"
-  ).innerHTML = `<p style='text-align:center;'>In lobby ...</p>`;
-  document.getElementById("playerCount").innerHTML = "0/8";
-}
-
-function createRoom() {
-  let name = document.getElementById("createRoomName").value;
-  if (!name) {
-    return;
-  }
-  let data = {
-    userId: document.getElementById("userId").value,
-    username: document.getElementById("username").value,
-    name: name,
-  };
-  socket.emit("createRoom", data);
-}
-
-function joinRoom(uuid) {
-  var data = {
-    uuid: uuid,
-    userId: document.getElementById("userId").value,
-    username: document.getElementById("username").value,
-  };
-  socket.emit("joinRoom", data);
-}
-
-function updateRooms(rooms) {
-  let rows = "";
-  rooms.forEach((r) => {
-    rows += `
-            <tr id="${r.uuid}" class="clickable-row">
-              <td id="roomName" value="${r.name}" scope="row">${r.name}</td>
-              <td>${r.players.length}</td>
-              <td><input type="button" class="btn btn-link" value="${r.uuid}" onclick="joinRoom(this.value)"></td>
-            </tr>`;
-  });
-  document.getElementById("roomTableBody").innerHTML = rows;
-}
-
-function updateRoomStatus(room) {
-  console.log(room);
-  let rows = "";
-  document.getElementById("playerCount").innerHTML = `${room.players.length}/8`;
-  room.players.forEach((p) => {
-    rows += `
-            <tr>
-              <td>${p.username}</td>`;
-    console.log(p.owner);
-    if (p.owner) {
-      rows += "<td style='color: grey;'><i>Owner</i></td>";
-    } else {
-      rows += "<td></td>";
-    }
-    rows += "</tr>";
-  });
-  document.getElementById("playersTableBody").innerHTML = rows;
-  document.getElementById(
-    "roomStatus"
-  ).innerHTML = `<p style='text-align:center;'>In <b>${room.name}</b></p>`;
-}
-
-function statusMsg(status) {
-  if (status.code === 0) {
-    document.getElementById(
-      "status"
-    ).innerHTML = `<p style='color: green;'>${status.msg}</p>`;
-  } else {
-    document.getElementById(
-      "status"
-    ).innerHTML = `<p style='color: red;'>${status.msg}</p>`;
-  }
-}
