@@ -1,6 +1,7 @@
 const uuid = require("uuid");
 const UserModel = require("../models/userModel");
-const GAME_TIME = 30;
+const GAME_TIME = 1800;
+const MAX_POINTS = 300;
 
 const words = [
   "shop",
@@ -125,7 +126,8 @@ function joinRoom(data) {
       username: data.username,
       socketId: data.socketId,
       owner: data.owner,
-      score: data.score,
+      score: 0,
+      globalWins: 0,
       turn: data.turn,
     });
     return true;
@@ -233,7 +235,6 @@ module.exports = (io) => {
         userId: data.userId,
         username: data.username,
         socketId: socket.id,
-        score: 0,
         owner: true,
         turn: false,
       };
@@ -257,7 +258,6 @@ module.exports = (io) => {
       }
       data.socketId = socket.id;
       data.owner = false;
-      data.score = 0;
       data.turn = false;
       if (joinRoom(data)) {
         socket.join(data.uuid);
@@ -298,6 +298,7 @@ module.exports = (io) => {
         room.state.remaining--;
         if (room.state.remaining <= 0) {
           nextPlayer(room);
+          io.sockets.in(room.uuid).emit("clearCanvas");
         }
       }, room);
     });
@@ -309,17 +310,16 @@ module.exports = (io) => {
       if (data.word === room.state.word) {
         let index = room.players.findIndex((p) => data.userId === p.userId);
         let turnIndex = room.state.turn;
-        room.players[turnIndex].score += Math.round(room.state.remaining / 2);
-        room.players[index].score += Math.round(room.state.remaining);
+        let percentage = room.state.remaining / GAME_TIME;
+        room.players[turnIndex].score += Math.round((MAX_POINTS * percentage) / 2);
+        room.players[index].score += Math.round(MAX_POINTS * percentage);
 
         nextPlayer(room);
+        io.sockets.in(room.uuid).emit("clearCanvas");
       }
     });
 
-    socket.on("stopGame", (uuid) => {
-      // let index = rooms.findIndex((r) => r.uuid === uuid);
-      // let currRoom = rooms[index];
-    });
+    socket.on("stopGame", (uuid) => {});
 
     socket.on("disconnect", () => {
       let index = clients.findIndex((c) => c.socketId === socket.id);
@@ -340,11 +340,15 @@ function nextPlayer(room) {
     let username = room.players[0].username;
     let hs = room.players[0].score;
     room.players.forEach((p) => {
-      if (hs < p.score) username = p.username;
-      console.log("Updating user " + p.username + " with score " + p.score);
-      UserModel.findOneAndUpdate({ username: p.username }, { score: p.score }, { upsert: true }, (err, doc) => {
+      if (hs < p.score) {
+        username = p.username;
+      }
+      UserModel.findOneAndUpdate({ username: p.username }, { $inc: { score: p.score }}, { upsert: true }, (err, doc) => {
         if (err) console.log(err);
       });
+    });
+    UserModel.findOneAndUpdate({ username: username }, { $inc: { globalWins: 1 }}, { upsert: true }, (err, doc) => {
+      if (err) console.log(err);
     });
     room.state.winner = username;
     room.state.alive = false;

@@ -7,21 +7,10 @@ var axios = require("axios").create({
 // GET home page
 router.get("/", (req, res, next) => {
   if (req.session.userId) {
-    axios
-      .get("/room")
-      .then((resp) => {
-        res.render("index", {
-          title: "Can you GUESS IT?",
-          rooms: resp.data,
-          session: req.session,
-        });
-      })
-      .catch((err) => {
-        res.render("error", {
-          message: "Internal error",
-          error: { status: 500 },
-        });
-      });
+    res.render("index", {
+      title: "Can you GUESS IT?",
+      session: req.session,
+    });
   } else {
     res.redirect("/login");
   }

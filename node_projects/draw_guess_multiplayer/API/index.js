@@ -1,6 +1,5 @@
 const bodyParser = require("body-parser")
 const userRoutes = require("./routes/userRoutes");
-const roomRoutes = require("./routes/roomRoutes");
 const mongoose = require("mongoose");
 const cors = require("cors");
 const app = require("express")(cors());
@@ -38,7 +37,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // routes
 app.use("/", userRoutes);
-app.use("/room", roomRoutes);
+// app.use("/room", roomRoutes);
 
 
 app.use((err, req, res, next) => {

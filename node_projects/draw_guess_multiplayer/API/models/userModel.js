@@ -7,7 +7,8 @@ require("dotenv").config()
 const UserSchema = new Schema({
     username: { type: String, required: true },
     password: { type: String, required: true, minlength: 8, maxlength: 256 },
-    score: { required: false }
+    score: { required: false },
+    globalWins: { required: false }
 }, {collection: "users"});
 
 
