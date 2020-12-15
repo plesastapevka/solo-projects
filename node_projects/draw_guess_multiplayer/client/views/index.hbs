@@ -17,7 +17,7 @@
             <div class="row">
                 <input class="text float-left" id="createRoomName" name="name" type="text" placeholder="Room name">
                 <input class="btn btn-primary float-left" type="submit" value="Create room" onclick="createRoom()"
-                    id="startBtn" size="30">
+                    id="createBtn" size="30">
             </div>
             <div class="row">
                 <div id="status"></div>
@@ -28,7 +28,7 @@
                         <tr>
                             <th scope="col">Room name</th>
                             <th scope="col">Players</th>
-                            <th scope="col">Room ID</th>
+                            <th scope="col">Join</th>
                         </tr>
                     </thead>
                     <tbody id="roomTableBody">
@@ -43,24 +43,34 @@
         </div>
         <div id="mainContainer" class="col-lg-6" style="width: 400px;height: 700px;">
             <div class="row">
-                <input class="btn btn-primary float-left" type="button" value="Start" id="startBtn" onclick="start()"
-                    size="30" disabled>
+                <input class="btn btn-primary float-left" type="button" value="Start" id="startBtn"
+                    onclick="startGame()" size="30" disabled>
                 <input class="btn btn-danger float-left" type="button" value="Leave" id="leaveBtn" onclick="leaveRoom()"
                     size="30" disabled>
             </div>
             <div class="row">
-                <div id="roomStatus" style="text-align: center;">
+                <div id="roomStatus" class="float-left" style="text-align: center;">
                     <p>In lobby ...</p>
                 </div>
                 <input type="hidden" id="currRoomId">
+            </div>
+            <div class="row">
+                <div id="timeRemContainer" style="text-align: center;">
+                    <p id="timeRemaining">Time remaining: <span id="seconds">0 seconds</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div id="wordContainer">
+                    <p id="wordToDraw"></p>
+                </div>
             </div>
             <div class="row">
                 <canvas id="can" style="border:2px solid;"></canvas>
             </div>
             <div class="row">
                 <div id="toolbox">
-                    <input class="float-left" type="color" id="colorPicker" name="colorPicker" value="#000000">
-                    <input class="btn btn-danger float-left" type="button" value="Clear" id="clearBtn" onclick="erase()"
+                    <input class="float-left" type="color" id="colorPicker" name="colorPicker" value="#000000" disabled>
+                    <input class="btn btn-danger float-left" type="button" value="Clear" disabled id="clearBtn" onclick="erase()"
                         size="30">
                 </div>
             </div>
@@ -77,7 +87,7 @@
                             <button class="btn btn-primary" id="msgSendBtn" onclick="sendMsg()"
                                 type="button">Send</button>
                             <button class="btn btn-success" id="msgGuessBtn" onclick="guess()"
-                                type="button">Guess</button>
+                                type="button" disabled>Guess</button>
                         </div>
                     </div>
                 </div>
@@ -87,13 +97,15 @@
             <table class="table table-striped" style="width: 100%;" id="playersTable">
                 <thead>
                     <tr>
-                        <th scope="col">Players</th>
+                        <th scope="col">Player</th>
+                        <th scope="col">Score</th>
                         <th scope="col" id="playerCount">0/8</th>
                     </tr>
                 </thead>
                 <tbody id="playersTableBody">
                     <tr>
                         <td>Not in room</td>
+                        <td>0</td>
                         <td></td>
                     </tr>
                 </tbody>

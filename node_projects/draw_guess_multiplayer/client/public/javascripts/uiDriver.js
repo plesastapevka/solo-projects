@@ -81,20 +81,31 @@ socket.on("connect", () => {
     scrollChat();
   });
 
+  socket.on("clearCanvas", () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+
   socket.on("disconnect", () => {});
 });
+
+function startGame() {
+  socket.emit("startGame", currentRoom.uuid);
+  document.getElementById("startBtn").disabled = true;
+}
 
 function leaveRoom() {
   socket.emit("leaveRequest", currentRoom.uuid);
   currentRoom = null;
   document.getElementById("playersTableBody").innerHTML =
     "<tr><td>Not in room</td><td></tr>";
+  document.getElementById("seconds").innerHTML = "0 seconds";
   document.getElementById(
     "roomStatus"
   ).innerHTML = `<p style='text-align:center;'>In lobby ...</p>`;
   document.getElementById("playerCount").innerHTML = "0/8";
   document.getElementById("currRoomId").value = "";
   document.getElementById("leaveBtn").disabled = true;
+  document.getElementById("startBtn").disabled = true;
 }
 
 function createRoom() {
@@ -125,21 +136,35 @@ function updateRooms(rooms) {
     rows += `
               <tr id="${r.uuid}" class="clickable-row">
                 <td id="roomName" value="${r.name}" scope="row">${r.name}</td>
-                <td>${r.players.length}</td>
-                <td><input type="button" class="btn btn-link" value="${r.uuid}" onclick="joinRoom(this.value)"></td>
-              </tr>`;
+                <td>${r.players.length}</td>`;
+    if (!r.state.alive) {
+      rows += `<td><input id="${r.uuid}" type="button" class="btn btn-link" value="Join" onclick="joinRoom(this.id)"></td>`;
+    } else {
+      rows += "<td></td>";
+    }
+    rows += `</tr>`;
   });
   document.getElementById("roomTableBody").innerHTML = rows;
 }
 
 function updateRoomStatus(room) {
   let rows = "";
+  turn = false;
   let ownerId;
   document.getElementById("playerCount").innerHTML = `${room.players.length}/8`;
+  document.getElementById(
+    "seconds"
+  ).innerHTML = `${room.state.remaining} seconds`;
   room.players.forEach((p) => {
-    rows += `
-              <tr>
-                <td>${p.username}</td>`;
+    rows += `<tr>`;
+    if (p.turn) {
+      rows += `<td style="color:green;">${p.username}</td>`;
+    } else if (p.username === room.state.winner) {
+      rows += `<td style="color:blue;"><b>${p.username}</b></td>`;
+    } else {
+      rows += `<td>${p.username}</td>`;
+    }
+    rows += `<td>${p.score}</td>`;
     if (p.owner) {
       rows += "<td style='color: grey;'><i>Owner</i></td>";
       ownerId = p.userId;
@@ -147,10 +172,32 @@ function updateRoomStatus(room) {
       rows += "<td></td>";
     }
     rows += "</tr>";
+    if (p.turn && p.userId === document.getElementById("userId").value) {
+      turn = true;
+    }
   });
-  if (ownerId === document.getElementById("userId").value && room.players.length < 3) {
-      console.log(document.getElementById("startBtn").disabled);
-      document.getElementById("startBtn").disabled = false;
+  if (turn) {
+    document.getElementById("msgGuessBtn").disabled = true;
+    document.getElementById("clearBtn").disabled = false;
+    document.getElementById("colorPicker").disabled = false;
+    document.getElementById("wordToDraw").innerHTML =
+      "<b>" + room.state.word + "</b>";
+  } else if (!room.state.alive && !turn) {
+    document.getElementById("msgGuessBtn").disabled = true;
+    document.getElementById("clearBtn").disabled = true;
+    document.getElementById("colorPicker").disabled = true;
+    document.getElementById("wordToDraw").innerHTML = "";
+  } else if (room.state.alive && !turn) {
+    document.getElementById("msgGuessBtn").disabled = false;
+    document.getElementById("clearBtn").disabled = true;
+    document.getElementById("colorPicker").disabled = true;
+    document.getElementById("wordToDraw").innerHTML = "";
+  }
+  if (
+    ownerId == document.getElementById("userId").value
+    // room.players.length >= 3 MARK
+  ) {
+    document.getElementById("startBtn").disabled = false;
   }
   document.getElementById("playersTableBody").innerHTML = rows;
   document.getElementById(
@@ -204,4 +251,14 @@ function sendMsg() {
     uuid: uuid,
   });
   document.getElementById("messageBox").value = null;
+}
+
+function guess() {
+  let word = document.getElementById("messageBox").value;
+  let data = {
+    userId: document.getElementById("userId").value,
+    uuid: currentRoom.uuid,
+    word: word,
+  };
+  socket.emit("guessWord", data);
 }

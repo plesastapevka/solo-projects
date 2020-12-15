@@ -1,6 +1,7 @@
 var socket = io("http://localhost:3333");
 var currentRoom;
 var canvas,
+  turn = false,
   ctx,
   flag = false,
   prevX = 0,
@@ -11,7 +12,7 @@ var canvas,
 
 function erase() {
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-  var data = { erase: true };
+  var data = { erase: true, uuid: currentRoom.uuid };
   socket.emit("mouse", data);
 }
 
@@ -31,6 +32,7 @@ function init() {
   canvas.addEventListener(
     "mousemove",
     function (e) {
+      if(!turn) return;
       findxy("move", e);
       color();
       data = {
@@ -53,6 +55,7 @@ function init() {
   canvas.addEventListener(
     "mousedown",
     function (e) {
+      if(!turn) return;
       findxy("down", e);
       data = {
         currX: currX,
@@ -75,6 +78,7 @@ function init() {
   canvas.addEventListener(
     "mouseup",
     function (e) {
+      if(!turn) return;
       findxy("up", e);
       data = {
         currX: currX,
@@ -96,6 +100,7 @@ function init() {
   canvas.addEventListener(
     "mouseout",
     function (e) {
+      if(!turn) return;
       findxy("out", e);
       data = {
         currX: currX,

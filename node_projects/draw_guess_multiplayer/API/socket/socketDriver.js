@@ -1,6 +1,6 @@
 const uuid = require("uuid");
-const { remove } = require("../models/roomModel");
-const RoomModel = require("../models/roomModel");
+const UserModel = require("../models/userModel");
+const GAME_TIME = 30;
 
 const words = [
   "shop",
@@ -32,10 +32,10 @@ const words = [
   "wall",
   "drain",
   "sand",
-  "summer"
+  "summer",
 ];
 
-let rooms = [{ uuid: uuid.v1(), ownerId: null, name: "Public", players: [] }];
+let rooms = [];
 let owners = [];
 let clients = [];
 // INTERVAL FUNCTION
@@ -46,8 +46,23 @@ function removeRoom(id) {
   }
 }
 
+function shuffle(array) {
+  var currentIndex = array.length,
+    temporaryValue,
+    randomIndex;
+  while (0 !== currentIndex) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
+}
+
 function randomWord() {
-  return words[Math.random() * (words.length - 0) + 0];
+  return words[Math.floor(Math.random() * words.length)];
 }
 
 function userDisconnected(sid, socket, username) {
@@ -91,9 +106,11 @@ function joinRoom(data) {
   if (rooms[index].players.length == 8) {
     return -1;
   }
-  
+
   rooms.forEach((r) => {
-    let userIndex = r.players.findIndex((player) => player.userId === data.userId);
+    let userIndex = r.players.findIndex(
+      (player) => player.userId === data.userId
+    );
     if (userIndex !== -1) {
       return false;
     }
@@ -107,11 +124,23 @@ function joinRoom(data) {
       userId: data.userId,
       username: data.username,
       socketId: data.socketId,
-      owner: data.owner
+      owner: data.owner,
+      score: data.score,
+      turn: data.turn,
     });
     return true;
   }
   return false;
+}
+
+// CUSTOM CONDITIONAL INTERVAL
+function setCustomConInterval(callback, room) {
+  var intervalID = setInterval(function () {
+    callback();
+    if (room.state.turn === room.players.length || !room.state.alive) {
+      clearInterval(intervalID);
+    }
+  }, 1000);
 }
 
 module.exports = (io) => {
@@ -129,7 +158,7 @@ module.exports = (io) => {
     setInterval(function () {
       rooms.forEach((r) => {
         socket.to(r.uuid).emit("roomStatusUpdate", r);
-        io.to(r.ownerId).emit("owner", { owner: true })
+        io.to(r.ownerId).emit("owner", { owner: true });
       });
     }, 1000);
 
@@ -143,7 +172,7 @@ module.exports = (io) => {
     }, 5000);
 
     socket.on("newUser", (username) => {
-      clients.push({ socketId: socket.id, username: username })
+      clients.push({ socketId: socket.id, username: username });
     });
 
     socket.on("mouse", (data) => {
@@ -153,19 +182,21 @@ module.exports = (io) => {
     });
 
     socket.on("leaveRequest", (uuid) => {
-      console.log(uuid);
       let index = clients.findIndex((c) => c.socketId === socket.id);
       let username = clients[index].username;
       userDisconnected(socket.id, socket, username);
       socket.leave(uuid);
       io.to(socket.id).emit("leaveApproved");
-    })
+    });
 
     socket.on("createRoom", (data) => {
       let existIndex = rooms.findIndex((r) => r.name === data.name);
       // check the name
       if (existIndex !== -1) {
-        io.to(socket.id).emit("status", { code: 1, msg: "Choose different room name" });
+        io.to(socket.id).emit("status", {
+          code: 1,
+          msg: "Choose different room name",
+        });
         return;
       }
       // check if owner
@@ -176,7 +207,9 @@ module.exports = (io) => {
       var userIndex;
       var exists;
       rooms.forEach((r) => {
-        userIndex = r.players.findIndex((player) => player.userId === data.userId);
+        userIndex = r.players.findIndex(
+          (player) => player.userId === data.userId
+        );
         if (userIndex !== -1) {
           exists = true;
         }
@@ -185,7 +218,6 @@ module.exports = (io) => {
         io.to(socket.id).emit("status", { code: 1, msg: "Already in a room" });
         return;
       }
-      console.log("continuing")
 
       let guuid = uuid.v1();
       var room = {
@@ -193,6 +225,7 @@ module.exports = (io) => {
         ownerId: socket.id,
         name: data.name,
         players: [],
+        state: { alive: false, turn: 0, word: "", remaining: GAME_TIME, winner: "" },
       };
       rooms.push(room);
       var user = {
@@ -200,7 +233,9 @@ module.exports = (io) => {
         userId: data.userId,
         username: data.username,
         socketId: socket.id,
-        owner: true
+        score: 0,
+        owner: true,
+        turn: false,
       };
       joinRoom(user);
       owners.push(socket.id);
@@ -208,19 +243,29 @@ module.exports = (io) => {
       socket.broadcast.emit("roomUpdate", rooms);
       io.to(socket.id).emit("playerJoined", { username: data.username });
       socket.to(guuid).emit("playerJoined", { username: data.username });
-      io.to(socket.id).emit("status", { msg: "Room created", code: 0, uuid: guuid });
+      io.to(socket.id).emit("status", {
+        msg: "Room created",
+        code: 0,
+        uuid: guuid,
+      });
     });
 
     socket.on("joinRoom", (data) => {
       if (owners.includes(socket.id)) {
-        io.to(socket.id).emit("status", { code: 1, msg: "Already an owner" })
+        io.to(socket.id).emit("status", { code: 1, msg: "Already an owner" });
         return;
       }
       data.socketId = socket.id;
       data.owner = false;
+      data.score = 0;
+      data.turn = false;
       if (joinRoom(data)) {
         socket.join(data.uuid);
-        io.to(socket.id).emit("status", { msg: "Room joined", code: 0, uuid: data.uuid });
+        io.to(socket.id).emit("status", {
+          msg: "Room joined",
+          code: 0,
+          uuid: data.uuid,
+        });
         socket.to(data.uuid).emit("playerJoined", { username: data.username });
         console.log(data.username + " joined " + data.uuid);
       } else {
@@ -231,14 +276,80 @@ module.exports = (io) => {
     socket.on("newMsg", (data) => {
       socket.to(data.uuid).emit("newMsg", data);
       io.to(socket.id).emit("newMsg", data);
-    })
+    });
+
+    socket.on("startGame", (uuid) => {
+      io.sockets.in(uuid).emit("clearCanvas");
+      let index = rooms.findIndex((r) => r.uuid === uuid);
+      let room = rooms[index];
+      room.players.forEach((p) => {
+        p.score = 0;
+      });
+      let word = randomWord();
+      room.state.alive = true;
+      room.state.word = word;
+      room.state.turn = 0;
+      room.players = shuffle(room.players);
+      room.players[0].turn = true;
+      room.state.winner = "";
+      room.state.remaining = GAME_TIME;
+      // INTERVAL TRACKING ROOM STATE
+      setCustomConInterval(() => {
+        room.state.remaining--;
+        if (room.state.remaining <= 0) {
+          nextPlayer(room);
+        }
+      }, room);
+    });
+
+    socket.on("guessWord", (data) => {
+      let index = rooms.findIndex((r) => r.uuid === data.uuid);
+      console.log;
+      let room = rooms[index];
+      if (data.word === room.state.word) {
+        let index = room.players.findIndex((p) => data.userId === p.userId);
+        let turnIndex = room.state.turn;
+        room.players[turnIndex].score += Math.round(room.state.remaining / 2);
+        room.players[index].score += Math.round(room.state.remaining);
+
+        nextPlayer(room);
+      }
+    });
+
+    socket.on("stopGame", (uuid) => {
+      // let index = rooms.findIndex((r) => r.uuid === uuid);
+      // let currRoom = rooms[index];
+    });
 
     socket.on("disconnect", () => {
       let index = clients.findIndex((c) => c.socketId === socket.id);
       let username = clients[index].username;
-      console.log("Username is: " + username);
       clients.splice(index, 1);
       userDisconnected(socket.id, socket, username);
     });
   });
 };
+
+function nextPlayer(room) {
+  let turnIndex = room.state.turn;
+  room.players[turnIndex].turn = false;
+  room.state.word = randomWord();
+  room.state.turn++;
+  if (room.state.turn === room.players.length) {
+    // HANDLE GAME OVER
+    let username = room.players[0].username;
+    let hs = room.players[0].score;
+    room.players.forEach((p) => {
+      if (hs < p.score) username = p.username;
+      console.log("Updating user " + p.username + " with score " + p.score);
+      UserModel.findOneAndUpdate({ username: p.username }, { score: p.score }, { upsert: true }, (err, doc) => {
+        if (err) console.log(err);
+      });
+    });
+    room.state.winner = username;
+    room.state.alive = false;
+    return;
+  }
+  room.players[room.state.turn].turn = true;
+  room.state.remaining = GAME_TIME;
+}
