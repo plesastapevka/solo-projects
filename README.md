@@ -1,6 +1,6 @@
 ## Intro
 
-This repository consists of mulitple projects - from x86 ASM to Python and C# and many more. This is my treasury of all the projects and small programs I have been working on since I found out my true passion.
+This repository consists of mulitple projects - from x86 ASM to Python and C# and many more. This is my treasury of all the projects and small programs I have been working on since I found out about my true passion.
 
 ## Some projects worth mentioning:
 **C/C++:**
@@ -33,6 +33,7 @@ This repository consists of mulitple projects - from x86 ASM to Python and C# an
 * [Hopcroft-Karp](python_projects/hopcroft_karp)
 
 **Node.js:**
+* [Can You GUESS IT? - Multiplayer](node_projects/draw_guess_multiplayer)
 * [Contact List](node_projects/simple_contact_list)
 * [To Do List](node_projects/todo_list)
 * [Forum](node_projects/forum)
