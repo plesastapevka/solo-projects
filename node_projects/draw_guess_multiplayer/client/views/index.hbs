@@ -1,0 +1,121 @@
+<div class="display-3 text-center">
+    <h1 id="mainTitle">{{title}}</h1>
+</div>
+<script src="javascripts/canvasDriver.js"></script>
+<script src="javascripts/uiDriver.js"></script>
+<script src="javascripts/canvasAnimation.js"></script>
+<input type="hidden" id="userId" value="{{session.userId}}">
+<input type="hidden" id="username" value="{{session.username}}">
+<div class="container-fluid" id="canvasMain">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="row">
+                <form action="/logout" method="post">
+                    <p class="float-left">Hey, <label id="user">{{session.username}}</label></p> <input type="submit"
+                        class='btn btn-outline-danger float-left' value="Logout">
+                </form>
+            </div>
+            <div class="row">
+                <input class="text float-left" id="createRoomName" name="name" type="text" placeholder="Room name">
+                <input class="btn btn-primary float-left" type="submit" value="Create room" onclick="createRoom()"
+                    id="createBtn" size="30">
+            </div>
+            <div class="row">
+                <div id="status"></div>
+            </div>
+            <div class="row">
+                <table class="table table-striped" style="width: 100%;" id="roomTable">
+                    <thead>
+                        <tr>
+                            <th scope="col">Room name</th>
+                            <th scope="col">Players</th>
+                            <th scope="col">Join</th>
+                        </tr>
+                    </thead>
+                    <tbody id="roomTableBody">
+                        <tr>
+                            <td>Loading ...</td>
+                            <td>Loading ...</td>
+                            <td>Loading ...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="mainContainer" class="col-lg-6" style="width: 400px;height: 700px;">
+            <div class="row">
+                <input class="btn btn-primary float-left" type="button" value="Start" id="startBtn"
+                    onclick="startGame()" size="30" disabled>
+                <input class="btn btn-danger float-left" type="button" value="Leave" id="leaveBtn" onclick="leaveRoom()"
+                    size="30" disabled>
+            </div>
+            <div class="row">
+                <div id="roomStatus" class="float-left" style="text-align: center;">
+                    <p>In lobby ...</p>
+                </div>
+                <input type="hidden" id="currRoomId">
+            </div>
+            <div class="row">
+                <div id="timeRemContainer" style="text-align: center;">
+                    <p id="timeRemaining">Time remaining: <span id="seconds">0 seconds</span></p>
+                </div>
+            </div>
+            <div class="row">
+                <div id="wordContainer">
+                    <p id="wordToDraw"></p>
+                </div>
+            </div>
+            <div class="row">
+                <canvas id="can" style="border:2px solid;"></canvas>
+            </div>
+            <div class="row">
+                <div id="toolbox">
+                    <input class="float-left" type="color" id="colorPicker" name="colorPicker" value="#000000" disabled>
+                    <input class="btn btn-danger float-left" type="button" value="Clear" disabled id="clearBtn" onclick="erase()"
+                        size="30">
+                </div>
+            </div>
+            <div class="row">
+                <div class="chatWrapper">
+                    <div id="chat">
+                        <div id="messages">
+
+                        </div>
+                    </div>
+                    <div id="messageInput">
+                        <div id="messageInputCore">
+                            <input type="text" id="messageBox" placeholder="Type a message" />
+                            <button class="btn btn-primary" id="msgSendBtn" onclick="sendMsg()"
+                                type="button">Send</button>
+                            <button class="btn btn-success" id="msgGuessBtn" onclick="guess()"
+                                type="button" disabled>Guess</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-2">
+            <div class="row">
+                <a href="/leaderboards">Global leaderboards</a>
+            </div>
+            <div class="row">
+            <table class="table table-striped" style="width: 100%;" id="playersTable">
+                <thead>
+                    <tr>
+                        <th scope="col">Player</th>
+                        <th scope="col">Score</th>
+                        <th scope="col" id="playerCount">0/8</th>
+                    </tr>
+                </thead>
+                <tbody id="playersTableBody">
+                    <tr>
+                        <td>Not in room</td>
+                        <td>0</td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+</div>

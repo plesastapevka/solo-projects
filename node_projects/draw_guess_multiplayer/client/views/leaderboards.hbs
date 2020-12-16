@@ -1,0 +1,28 @@
+<div style="text-align: center;">
+    <h2 style="padding:50px;">LEADERBOARDS</h2>
+</div>
+<div style="text-align: center;">
+    <a class="btn btn-info" href="/">Home</a>
+</div>
+<div id="leaderboardsTable">
+    <table class="table table-striped">
+        <thead id="leaderboardsTableHead">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">User</th>
+                <th scope="col">Score</th>
+                <th scope="col">Number of wins</th>
+            </tr>
+        </thead>
+        <tbody id="leaderboardsTableBody">
+            {{#each users}}
+            <tr>
+                <td>{{@index}}</td>
+                <td>{{username}}</td>
+                <td>{{score}}</td>
+                <td>{{globalWins}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
