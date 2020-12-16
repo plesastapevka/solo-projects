@@ -121,6 +121,8 @@ function init() {
   );
 }
 
+$(init);
+
 function color(obj) {
   x = document.getElementById("colorPicker").value;
   if (x == "white") y = 14;
@@ -175,5 +177,3 @@ function findxy(res, e) {
     }
   }
 }
-
-$(init);

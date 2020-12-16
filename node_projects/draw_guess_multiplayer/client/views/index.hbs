@@ -3,6 +3,7 @@
 </div>
 <script src="javascripts/canvasDriver.js"></script>
 <script src="javascripts/uiDriver.js"></script>
+<script src="javascripts/canvasAnimation.js"></script>
 <input type="hidden" id="userId" value="{{session.userId}}">
 <input type="hidden" id="username" value="{{session.username}}">
 <div class="container-fluid" id="canvasMain">
@@ -94,6 +95,10 @@
             </div>
         </div>
         <div class="col-lg-2">
+            <div class="row">
+                <a href="/leaderboards">Global leaderboards</a>
+            </div>
+            <div class="row">
             <table class="table table-striped" style="width: 100%;" id="playersTable">
                 <thead>
                     <tr>
@@ -110,6 +115,7 @@
                     </tr>
                 </tbody>
             </table>
+            </div>
         </div>
     </div>
 </div>

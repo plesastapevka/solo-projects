@@ -21,8 +21,42 @@ router.get("/login", (req, res, next) => {
   if (req.session.userId) {
     res.redirect("/");
   } else {
-    res.render("login", {});
+    res.render("login");
   }
+});
+
+// GET register page
+router.get("/register", (req, res, next) => {
+  if (req.session.userId) {
+    res.redirect("/");
+  } else {
+    res.render("register");
+  }
+});
+
+// GET leaderboards page
+router.get("/leaderboards", (req, res, next) => {
+  axios
+    .get("/")
+    .then((resp) => {
+      let users = resp.data.users;
+      users.sort((a, b) =>
+        a.score < b.score
+          ? 1
+          : a.score === b.score
+          ? a.globalWins > b.globalWins
+            ? 1
+            : -1
+          : -1
+      );
+      res.render("leaderboards", { users: users });
+    })
+    .catch((err) => {
+      res.render("error", {
+        message: "Internal error",
+        error: { status: 500 },
+      });
+    });
 });
 
 // POST login
@@ -53,6 +87,41 @@ router.post("/login", (req, res, next) => {
     });
 });
 
+// POST register
+router.post("/register", (req, res, next) => {
+  let username = req.body.username;
+  let password = req.body.password;
+  let repeat = req.body.repeatPassword;
+  if (
+    !password ||
+    !repeat ||
+    password === "" ||
+    repeat === "" ||
+    password.includes(" ") ||
+    repeat.includes(" ")
+  ) {
+    res.render("register", { message: "Password field cannot be empty" });
+    return;
+  }
+  if (password !== repeat) {
+    res.render("register", { message: "Passwords must match" });
+    return;
+  }
+  const body = {
+    username: username,
+    password: password,
+  };
+  axios
+    .post("register", body)
+    .then((resp) => {
+      res.redirect("/login");
+    })
+    .catch((err) => {
+      res.render("register", { message: err.response.data.message });
+    });
+});
+
+// POST logout
 router.post("/logout", (req, res, next) => {
   req.session.destroy();
   res.redirect("/");

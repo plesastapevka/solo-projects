@@ -81,6 +81,11 @@ socket.on("connect", () => {
     scrollChat();
   });
 
+  socket.on("correctAnswer", () => {
+    new Audio("sounds/correct.m4a").play();
+    shake(document.getElementById("can"));
+  });
+
   socket.on("clearCanvas", () => {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   });

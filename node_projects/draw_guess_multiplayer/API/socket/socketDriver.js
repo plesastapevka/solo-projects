@@ -308,6 +308,7 @@ module.exports = (io) => {
       console.log;
       let room = rooms[index];
       if (data.word === room.state.word) {
+        io.to(socket.id).emit("correctAnswer");
         let index = room.players.findIndex((p) => data.userId === p.userId);
         let turnIndex = room.state.turn;
         let percentage = room.state.remaining / GAME_TIME;

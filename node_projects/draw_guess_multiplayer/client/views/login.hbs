@@ -1,25 +1,29 @@
+<style>.row { padding: 5px; margin: 5px; }</style>
 <div id="login">
 
-  <h1>Can you <strong>GUESS IT?</strong></h1>
+    <h1>Can you <strong>GUESS IT?</strong></h1>
 
-  <div class="login-box shadow">
-   <form action="/login" method='post' class='login-form'>
+    <div class="login-box shadow">
+        <div class="row">
+            <form action="/login" method='post' class='login-form'>
+        </div>
+        <div class="row">
+            <i id='username' class='icon-user'></i>
+            <input id="username" autocomplete="off" placeholder="Username" class='dark' type="text" name="username">
+        </div>
+        <div class="row">
+            <i id='password' class='icon-lock'></i>
+            <input id="password" autocomplete="off" placeholder="Password" class='dark' type="password" name="password">
+        </div>
+        <div class="row">
+            <input type="submit" class='btn btn-primary' value="Login">
+        </div>
+        </form>
+    </div>
 
-     <i id='username' class='icon-user'></i>
-     <input id="username" autocomplete="off" placeholder="Username" class='dark' type="text" name="username">
-
-     <i id='password' class='icon-lock'></i>
-     <input id="password" autocomplete="off" placeholder="Password" class='dark' type="password" name="password">
-
-    <input type="submit" class='button large' value="Login">
-   
-   </form>
-
-  </div>
-
-   <div class="login-footer">
-       <p style="color:red;">{{ message }}</p>
-<a href="/register" target="_BLANK">Don't have an acccount?</a>
-   </div>
+    <div class="login-footer">
+        <p style="color:red;">{{ message }}</p>
+        <a href="/register">Don't have an acccount?</a>
+    </div>
 
 </div>

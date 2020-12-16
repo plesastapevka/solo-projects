@@ -18,7 +18,9 @@ router.post("/register", async (req, res) => {
             let password = hash;
             user = {
                 username: req.body.username,
-                password: password
+                password: password,
+                score: 0,
+                globalWins: 0
             };
             UserModel.create(user, (err, newUser) => {
                 if(err) return res.status(500).send(err);
@@ -47,6 +49,16 @@ router.post("/login", async (req, res) => {
                 accessToken: token
             });
         });
+    });
+});
+
+router.get("/", async (req, res) => {
+    UserModel.find({}, (err, users) => {
+        if (err) {
+            console.log(err);
+            return res.status(500).send({ status: 500, message: "Could not fetch users" });
+        }
+        return res.status(200).send({ status: 200, users: users });
     });
 });
 
