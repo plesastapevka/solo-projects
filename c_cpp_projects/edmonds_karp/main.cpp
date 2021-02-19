@@ -29,6 +29,7 @@ struct graph_t {
 
     std::vector<vertice_t> m_vertices;
     std::vector<edge_t> m_edges;
+    size_t max_flow = 0;
 };
 
 // prototypes
@@ -39,7 +40,6 @@ bool bfs(std::shared_ptr<graph_t> G, size_t s, size_t d);
 std::shared_ptr<graph_t> init_graph(const std::string& path);
 
 size_t edmonds_karp(std::shared_ptr<graph_t> G, size_t s, size_t t) {
-    size_t max_flow = 0;
     while (bfs(G, s, t)) {
         graph_t tmp = *G;
         vertice_t v = G->m_vertices[t];
@@ -55,9 +55,8 @@ size_t edmonds_karp(std::shared_ptr<graph_t> G, size_t s, size_t t) {
             set_f(G, v.prev, v.index, path);
             v = G->m_vertices[v.prev];
         }
-        max_flow += path;
+        G->max_flow += path;
     }
-    std::cout << "Max flow: " << max_flow << "\n";
 }
 
 int get_path(std::shared_ptr<graph_t> G, size_t prev, size_t index) {
@@ -163,5 +162,18 @@ int main() {
     }
     size_t start = 0, end = 5;
     edmonds_karp(graph, start, end);
+//    (0, 1) [12/16]
+//    (0, 2) [11/13]
+//    (1, 2) [0/10]
+//    (1, 3) [12/12]
+//    (2, 4) [11/14]
+//    (3, 2) [0/9]
+//    (3, 5) [19/20]
+//    (4, 3) [7/7]
+//    (4, 5) [4/4]
+    for (auto& e: graph->m_edges) {
+        std::cout << "(" << e.v1 << ", " << e.v2 << ") [" << e.fuv << "/" << e.capacity << "]\n";
+    }
+    std::cout << "\nMax flow: " << graph->max_flow << "\n";
     return 0;
 }
