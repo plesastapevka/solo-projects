@@ -1993,3 +1993,6 @@ FodyWeavers.xsd
 
 # Test data
 python_projects/text_segmentation/input/
+
+# Media files
+*.wav
