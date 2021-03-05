@@ -29,12 +29,14 @@ class AudioRecorder:
             self.frames.append(data)
 
         print("Stopped recording.")
-
         # Destroy stream
         stream.stop_stream()
         stream.close()
 
-    def get_recording(self):
+    def get_recording_string(self):
+        return b''.join(self.frames)
+
+    def get_recording_list(self):
         return self.frames
 
     def save_to_file(self, FILE_NAME="output.wav"):
