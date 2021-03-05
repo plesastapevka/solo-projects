@@ -23,12 +23,10 @@ class AudioRecorder:
                                     rate=self.rate,
                                     input=True,
                                     frames_per_buffer=self.chunk)
-        print("Now recording ...")
         for i in range(0, int(self.rate / self.chunk * self.record_time)):
             data = stream.read(self.chunk)
             self.frames.append(data)
 
-        print("Stopped recording.")
         # Destroy stream
         stream.stop_stream()
         stream.close()
