@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from scipy.fft import fft, fftfreq
 
 SAMPLE_RATE = 44100
 DURATION = 5
@@ -19,3 +20,11 @@ def plot_frames(frames):
     sub.plot(amplitude)
     plt.show()
     fig.savefig('sinusoid.png')
+
+
+def dft(x, y):
+    N = SAMPLE_RATE * DURATION
+    yf = fft(y)
+    xf = fftfreq(N, 1 / SAMPLE_RATE)
+    plt.plot(xf, np.abs(yf))
+    plt.show()

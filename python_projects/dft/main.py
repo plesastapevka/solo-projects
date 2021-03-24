@@ -2,7 +2,6 @@ from audio_rec import AudioRecorder
 import numpy as np
 import utils
 import matplotlib.pyplot as plt
-from scipy.fft import fft, fftfreq
 
 
 def dft(frames):
@@ -18,8 +17,7 @@ def main():
     # frames = recorder.get_recording_string()
     # utils.plot_frames(frames)
     x, y = utils.generate_sine(2)
-    plt.plot(x, y)
-    plt.show()
+    utils.dft(x, y)
 
 
 if __name__ == "__main__":
