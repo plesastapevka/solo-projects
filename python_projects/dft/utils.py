@@ -1,5 +1,4 @@
 import numpy as np
-import matplotlib.pyplot as plt
 from scipy.fft import fft, fftfreq
 import constants
 
@@ -11,23 +10,11 @@ def generate_sine(freq, sample_rate=constants.SAMPLE_RATE, duration=constants.DU
     return x, y
 
 
-def plot_frames(frames):
-    fig = plt.figure()
-    sub = fig.add_subplot(111)
-    amplitude = np.frombuffer(frames, np.int16)
-    sub.plot(amplitude)
-    plt.show()
-    fig.savefig('sinusoid.png')
-
-
-def dft(x, y):
+def dft(y):
     N = int(constants.SAMPLE_RATE / constants.CHUNK * constants.DURATION) * constants.CHUNK
     yf = fft(np.frombuffer(y, np.int16))
     xf = fftfreq(N, 1 / constants.SAMPLE_RATE)
-    plt.plot(xf, np.abs(yf))
-    plt.xlabel("frequency (Hz)")
-    plt.ylabel("amplitude (???)")
-    plt.show()
+    return xf, yf
 
 
 def dft_impl(amplitudes):
@@ -42,7 +29,4 @@ def dft_impl(amplitudes):
         val = np.sqrt(np.power(sum_re, 2) + np.power(sum_im, 2))
         ft_vals.append(val)
 
-    xf = fftfreq(N, 1 / constants.SAMPLE_RATE)
-    plt.stem(xf, ft_vals)
-    plt.show()
     return ft_vals
