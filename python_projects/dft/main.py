@@ -23,12 +23,8 @@ def main():
 
     # Get value array
     amplitudes = np.frombuffer(recording, np.int16)
-    step = constants.DURATION / len(amplitudes)
-    # secs = []
-    # for i in range(len(amplitudes)):
-    #     secs.append(i * step)
-
     time = np.linspace(0, len(amplitudes) / constants.SAMPLE_RATE, num=len(amplitudes))
+
     # FFT
     xf, yf = utils.dft(recording)
 
