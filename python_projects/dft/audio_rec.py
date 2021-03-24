@@ -1,6 +1,7 @@
 import pyaudio as pya
 import wave as wav
 import os
+import constants
 
 
 def play_recording(FILE_NAME="output.wav"):
@@ -8,7 +9,7 @@ def play_recording(FILE_NAME="output.wav"):
 
 
 class AudioRecorder:
-    def __init__(self, CHUNK=1024, FORMAT=pya.paInt16, CHANNELS=1, RATE=44100, RECORD_TIME=3):
+    def __init__(self, CHUNK=constants.CHUNK, FORMAT=pya.paInt16, CHANNELS=1, RATE=constants.SAMPLE_RATE, RECORD_TIME=constants.DURATION):
         self.chunk = CHUNK
         self.format = FORMAT
         self.channels = CHANNELS
@@ -23,7 +24,7 @@ class AudioRecorder:
                                     rate=self.rate,
                                     input=True,
                                     frames_per_buffer=self.chunk)
-        for i in range(0, int(self.rate / self.chunk * self.record_time)):
+        for i in range(int(self.rate / self.chunk * self.record_time)):
             data = stream.read(self.chunk)
             self.frames.append(data)
 
