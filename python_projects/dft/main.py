@@ -2,7 +2,7 @@ from audio_rec import AudioRecorder
 import numpy as np
 import utils
 import matplotlib.pyplot as plt
-from scipy.fft import fft, fftreq
+from scipy.fft import fft, fftfreq
 
 
 def dft(frames):
