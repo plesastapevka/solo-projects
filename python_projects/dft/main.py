@@ -3,6 +3,7 @@ import numpy as np
 import utils
 import matplotlib.pyplot as plt
 import constants
+from audio_rec import play_recording
 
 
 def record_sound():
@@ -11,6 +12,7 @@ def record_sound():
     recorder.record()
     print("Stopped recording.")
     recorder.save_to_file(FILE_NAME="result.wav")
+    play_recording(FILE_NAME="result.wav")
     frames = recorder.get_recording_string()
     return frames
 

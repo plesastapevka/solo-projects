@@ -16,6 +16,11 @@ class AudioRecorder:
         self.rate = RATE
         self.record_time = RECORD_TIME
         self.recorder = pya.PyAudio()
+        info = self.recorder.get_host_api_info_by_index(0)
+        numdevices = info.get('deviceCount')
+        for i in range(0, numdevices):
+            if (self.recorder.get_device_info_by_host_api_device_index(0, i).get('maxInputChannels')) > 0:
+                print("Input Device id ", i, " - ", self.recorder.get_device_info_by_host_api_device_index(0, i))
         self.frames = []
 
     def record(self):
