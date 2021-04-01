@@ -11,6 +11,7 @@ function draw() {
   background(0);
   for (let i = 0; i < movers.length; i++) {
     movers[i].update();
+    movers[i].checkEdges();
     movers[i].display();
   }
 }
