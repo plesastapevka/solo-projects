@@ -11,7 +11,8 @@ def pre_process_text(path_name):
 def create_n_grams(text, n=3):
     n_grams = [text[i:i + n] for i in range(len(text) - n + 1)]
     ngrams_freq = collections.Counter(n_grams)
-    return ngrams_freq.most_common()
+    ngrams_map = ngrams_freq.most_common()
+    return [i[0] for i in ngrams_map]
 
 
 def get_ngrams(path_name):
@@ -25,7 +26,18 @@ def get_ngrams(path_name):
 
 def detect_lang(bi, tri, four, five):
     # TODO: create ngrams for eng, ger and si lang
-    pass
+    bi_eng = ["e "]
+    tri_eng = []
+    four_eng = []
+    five_eng = []
+    sim_sum = 0
+    for idx, bi_e in enumerate(bi):
+        try:
+            index = bi_eng.index(bi_e)
+            sim_sum += abs(index - idx)
+        except ValueError:
+            pass
+    print(sim_sum)
 
 
 def main():
