@@ -1,61 +1,52 @@
 class Element {
-  constructor() {
-    this.position = createVector(random(width),random(height));
-    this.velocity = createVector();
-    this.d_velocity = createVector();
-    this.top_speed = 5;
-    this.v_width = 10;
-    this.v_length= 40;
+  constructor(x, y) {
+    this.acceleration = createVector(0, 0);
+    this.velocity = createVector(0, -2);
+    this.position = createVector(x, y);
+    this.r = 6;
+    this.maxspeed = 4;
+    this.maxforce = 0.1;
   }
 
   update() {
-    var mouse = createVector(mouseX,mouseY);
-    this.d_velocity = p5.Vector.sub(mouse, this.position);
-    var d = this.d_velocity.mag();
-    this.d_velocity.normalize();
-    if (d < 20) {
-      var dist = mouse.dist(this.position);
-      console.log(dist);
-      var lerp_val = lerp(dist, 0, 0.5);
-    //  console.log(lerp_val);
-      this.d_velocity.mult(lerp_val); 
-    } else {
-      this.d_velocity.mult(this.top_speed);
-    }
-    //this.d_velocity.mult(this.top_speed);
-    //}
-    
-    var steering_force = p5.Vector.sub(this.d_velocity, this.velocity);
-    steering_force.limit(0.8);
-    this.velocity.add(steering_force);
+    this.velocity.add(this.acceleration);
+    this.velocity.limit(this.maxspeed);
     this.position.add(this.velocity);
+    this.acceleration.mult(0);
   }
-  
-  checkEdges() {
-    if (this.position.x > width) {
-      this.position.x = width;
-    }
-    else if (this.position.x < 0) {
-      this.position.x = 0;
+
+  applyForce(force) {
+    this.acceleration.add(force);
+  }
+
+  arrive(target) {
+    let desired = p5.Vector.sub(target, this.position);
+    let d = desired.mag();
+    if (d < 100) {
+      var m = map(d, 0, 100, 0, this.maxspeed);
+      desired.setMag(m);
+    } else {
+      desired.setMag(this.maxspeed);
     }
 
-    if (this.position.y > height - this.v_length) {
-      this.position.y = height - this.v_length;
-    }
-    else if (this.position.y < 0) {
-      this.position.y = 0;
-    }
+    let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxforce);
+    this.applyForce(steer);
   }
 
   display() {
-    stroke(0);
-    strokeWeight(2);
+    let theta = this.velocity.heading() + PI / 2;
     fill(255);
-    triangle(this.position.x - this.v_width,     // x1
-             this.position.y,                    // y1
-             this.position.x + this.v_width,     // x2
-             this.position.y,                    // y2
-             this.position.x,                    // x3
-             this.position.y + this.v_length);   // y3
+    stroke(200);
+    strokeWeight(1);
+    push();
+    translate(this.position.x, this.position.y);
+    rotate(theta);
+    beginShape();
+    vertex(0, -this.r * 2);
+    vertex(-this.r, this.r * 2);
+    vertex(this.r, this.r * 2);
+    endShape(CLOSE);
+    pop();
   }
 }
