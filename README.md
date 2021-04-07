@@ -26,6 +26,7 @@ This repository consists of mulitple projects - from x86 ASM to Python and C# an
 * [Webchat](dotnet_projects/webchat)
 
 **Python:**
+* [N-Grams Language Detection](python_projects/n_grams)
 * [ICP](python_projects/computer_vision_ICP)
 * [Bayer Preprocessing](python_projects/computer_vision_bayer)
 * [Segmentation](python_projects/computer_vision_segmentation)
