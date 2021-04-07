@@ -1,9 +1,9 @@
 class Element {
   constructor(x, y) {
     this.acceleration = createVector(0, 0);
-    this.velocity = createVector(3, 4);
+    this.velocity = createVector(3, 5);
     this.position = createVector(x, y);
-    this.r = 6;
+    this.r = 8;
     this.maxspeed = 3;
     this.maxforce = 0.15;
   }
@@ -20,7 +20,6 @@ class Element {
   }
 
   boundaries() {
-
     let desired = null;
 
     if (this.position.x < d) {

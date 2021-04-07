@@ -1,11 +1,11 @@
 let v;
 
-let debug = true;
+let debug = true, wander = false;
 
 let d = 25;
 
 function setup() {
-  createCanvas(640, 360);
+  createCanvas(1024, 1024);
   v = new Element(width / 2, height / 2);
 }
 
@@ -20,7 +20,6 @@ function draw() {
   }
 
   v.boundaries();
-
   v.update();
   v.display();
 
@@ -28,4 +27,8 @@ function draw() {
 
 function mousePressed() {
   debug = !debug;
+}
+
+function keyPressed() {
+  if (keyCode == 32) wander = !wander; 
 }

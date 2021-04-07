@@ -1,8 +1,8 @@
 let movers = [];
-let v, count = 1;
+let v, count = 1, MODES = 2, mode = 0;
 
 function setup() {
-  createCanvas(640,360);
+  createCanvas(1024,1024);
   for (var i = 0; i < count; i++) {
      movers[i] = new Element(width / 2, height / 2);
   }
@@ -18,8 +18,12 @@ function draw() {
   ellipse(mouse.x, mouse.y, 24, 24);
 
   for (var i = 0; i < count; i++) {
-    movers[i].arrive(mouse);
+    mode == 0 ? movers[i].arrive(mouse) : movers[i].seek(mouse);
     movers[i].update();
     movers[i].display();
   }
+}
+
+function mouseClicked() {
+  mode = (mode + 1) % MODES;
 }

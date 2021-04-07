@@ -3,10 +3,7 @@ let flock;
 let text;
 
 function setup() {
-  text = createP("Drag the mouse to generate new boids.");
-  text.position(10, 365);
-
-  createCanvas(640, 360);
+  createCanvas(1024, 1024);
   flock = new Flock();
   for (let i = 0; i < 60; i++) {
     let b = new Boid(width / 2, height / 2);

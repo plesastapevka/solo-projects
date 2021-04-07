@@ -1,11 +1,11 @@
 class Element {
   constructor(x, y) {
     this.acceleration = createVector(0, 0);
-    this.velocity = createVector(0, -2);
+    this.velocity = createVector(0, 0);
     this.position = createVector(x, y);
-    this.r = 6;
-    this.maxspeed = 4;
-    this.maxforce = 0.1;
+    this.r = 7;
+    this.maxspeed = 8;
+    this.maxforce = 0.5;
   }
 
   update() {
@@ -30,6 +30,14 @@ class Element {
     }
 
     let steer = p5.Vector.sub(desired, this.velocity);
+    steer.limit(this.maxforce);
+    this.applyForce(steer);
+  }
+  
+  seek(target) {
+    var desired = p5.Vector.sub(target, this.position);
+    desired.setMag(this.maxspeed);
+    var steer = p5.Vector.sub(desired, this.velocity);
     steer.limit(this.maxforce);
     this.applyForce(steer);
   }
