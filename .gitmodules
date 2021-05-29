@@ -1,6 +1,3 @@
 [submodule "lib"]
 	path = lib
 	url = https://github.com/plesastapevka/lib.git
-[submodule "tf_models/models"]
-	path = tf_models
-	url = https://github.com/tensorflow/models
