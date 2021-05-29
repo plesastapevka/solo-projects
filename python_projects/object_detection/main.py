@@ -1,17 +1,8 @@
 import numpy as np
 import os
-import six.moves.urllib as urllib
-import sys
-import tarfile
 import tensorflow as tf
-import zipfile
 import pathlib
 import cv2
-from collections import defaultdict
-from io import StringIO
-from matplotlib import pyplot as plt
-from PIL import Image
-from IPython.display import display
 from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
@@ -97,13 +88,6 @@ def detect_objects(model, image):
 
 
 def main():
-    # PATH_TO_TEST_IMAGES_DIR = pathlib.Path('object_detection/test_images')
-    # TEST_IMAGE_PATHS = sorted(list(PATH_TO_TEST_IMAGES_DIR.glob("*.jpg")))
-    #
-    # for image_path in TEST_IMAGE_PATHS:
-    #     print(image_path)
-    #     show_inference(detection_model, image_path)
-
     cap = cv2.VideoCapture(0)
 
     # Check if the webcam is opened correctly
@@ -116,7 +100,7 @@ def main():
         frame = detect_objects(DETECTION_MODEL, frame)
         cv2.imshow('Input', frame)
 
-        c = cv2.waitKey(1)
+        c = cv2.waitKey(1)  # Esc to quit
         if c == 27:
             break
 
