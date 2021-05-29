@@ -6,6 +6,7 @@ import tarfile
 import tensorflow as tf
 import zipfile
 import pathlib
+import cv2
 from collections import defaultdict
 from io import StringIO
 from matplotlib import pyplot as plt
@@ -15,16 +16,19 @@ from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
+PATH_TO_LABELS = 'object_detection/data/mscoco_label_map.pbtxt'
+MODEL_NAME = 'ssd_inception_v2_coco_2017_11_17'
+
 while "models" in pathlib.Path.cwd().parts:
     os.chdir('..')
 
 
 def load_model(model_name):
-    base_url = 'http://download.tensorflow.org/models/object_detection/'
+    url = 'http://download.tensorflow.org/models/object_detection/'
     model_file = model_name + '.tar.gz'
     model_dir = tf.keras.utils.get_file(
         fname=model_name,
-        origin=base_url + model_file,
+        origin=url + model_file,
         untar=True)
 
     model_dir = pathlib.Path(model_dir) / "saved_model"
@@ -34,14 +38,11 @@ def load_model(model_name):
     return model
 
 
-PATH_TO_LABELS = 'object_detection/data/mscoco_label_map.pbtxt'
-category_index = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
-
-model_name = 'ssd_inception_v2_coco_2017_11_17'
-detection_model = load_model(model_name)
+CATEGORY_INDEX = label_map_util.create_category_index_from_labelmap(PATH_TO_LABELS, use_display_name=True)
+DETECTION_MODEL = load_model(MODEL_NAME)
 
 
-def run_inference_for_single_image(model, image):
+def run_inference(model, image):
     image = np.asarray(image)
     # The input needs to be a tensor, convert it using `tf.convert_to_tensor`.
     input_tensor = tf.convert_to_tensor(image)
@@ -76,36 +77,51 @@ def run_inference_for_single_image(model, image):
     return output_dict
 
 
-def show_inference(model, image_path):
-    # the array based representation of the image will be used later in order to prepare the
-    # result image with boxes and labels on it.
-    image_np = np.array(Image.open(image_path))
+def detect_objects(model, image):
+    # Open image as an array
+    image_np = np.array(image)
 
-    # Actual detection.
-
-    output_dict = run_inference_for_single_image(model, image_np)
+    output_dict = run_inference(model, image_np)
     # Visualization of the results of a detection.
     vis_util.visualize_boxes_and_labels_on_image_array(
         image_np,
         output_dict['detection_boxes'],
         output_dict['detection_classes'],
         output_dict['detection_scores'],
-        category_index,
+        CATEGORY_INDEX,
         instance_masks=output_dict.get('detection_masks_reframed', None),
         use_normalized_coordinates=True,
         line_thickness=8)
 
-    im = Image.fromarray(image_np)
-    im.show()
+    return image_np
 
 
 def main():
-    PATH_TO_TEST_IMAGES_DIR = pathlib.Path('object_detection/test_images')
-    TEST_IMAGE_PATHS = sorted(list(PATH_TO_TEST_IMAGES_DIR.glob("*.jpg")))
+    # PATH_TO_TEST_IMAGES_DIR = pathlib.Path('object_detection/test_images')
+    # TEST_IMAGE_PATHS = sorted(list(PATH_TO_TEST_IMAGES_DIR.glob("*.jpg")))
+    #
+    # for image_path in TEST_IMAGE_PATHS:
+    #     print(image_path)
+    #     show_inference(detection_model, image_path)
 
-    for image_path in TEST_IMAGE_PATHS:
-        print(image_path)
-        show_inference(detection_model, image_path)
+    cap = cv2.VideoCapture(0)
+
+    # Check if the webcam is opened correctly
+    if not cap.isOpened():
+        raise IOError("Cannot open webcam")
+
+    while True:
+        ret, frame = cap.read()
+        frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
+        frame = detect_objects(DETECTION_MODEL, frame)
+        cv2.imshow('Input', frame)
+
+        c = cv2.waitKey(1)
+        if c == 27:
+            break
+
+    cap.release()
+    cv2.destroyAllWindows()
 
 
 if __name__ == "__main__":
