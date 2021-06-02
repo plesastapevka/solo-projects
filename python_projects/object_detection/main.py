@@ -1,9 +1,7 @@
 import numpy as np
-import os
 import tensorflow as tf
 import pathlib
 import cv2
-from object_detection.utils import ops as utils_ops
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils as vis_util
 
@@ -30,7 +28,7 @@ CATEGORY_INDEX = label_map_util.create_category_index_from_labelmap(PATH_TO_LABE
 DETECTION_MODEL = load_model(MODEL_NAME)
 
 
-def run_inference(model, image):
+def detect(model, image):
     image = np.asarray(image)
     input_tensor = tf.convert_to_tensor(image)
     input_tensor = input_tensor[tf.newaxis, ...]
@@ -55,7 +53,7 @@ def detect_objects(model, image):
     # Open image as an array
     image_np = np.array(image)
 
-    output_dict = run_inference(model, image_np)
+    output_dict = detect(model, image_np)
     # Visualization of the results of a detection.
     vis_util.visualize_boxes_and_labels_on_image_array(
         image_np,
