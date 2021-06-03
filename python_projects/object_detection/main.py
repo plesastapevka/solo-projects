@@ -63,7 +63,8 @@ def detect_objects(model, image):
         CATEGORY_INDEX,
         instance_masks=output_dict.get('detection_masks_reframed', None),
         use_normalized_coordinates=True,
-        line_thickness=8)
+        line_thickness=8,
+        min_score_thresh=.7)
 
     return image_np
 
@@ -83,7 +84,7 @@ def main():
         ret, frame = cap.read()
         frame = cv2.resize(frame, None, fx=0.5, fy=0.5, interpolation=cv2.INTER_AREA)
         frame = detect_objects(DETECTION_MODEL, frame)
-        cv2.imshow('Input', frame)
+        cv2.imshow('Object detection', frame)
 
         c = cv2.waitKey(1)  # Esc to quit
         if c == 27:
