@@ -69,11 +69,15 @@ def detect_objects(model, image):
 
 
 def main():
-    cap = cv2.VideoCapture(0)
+    test_video = True
+    if test_video:
+        cap = cv2.VideoCapture("videos/test_video.mp4")
+    else:
+        cap = cv2.VideoCapture(0)
 
-    # Check if the webcam is opened correctly
+    # Check if video can be read
     if not cap.isOpened():
-        raise IOError("Cannot open webcam")
+        raise IOError("Cannot read video feed")
 
     while True:
         ret, frame = cap.read()
