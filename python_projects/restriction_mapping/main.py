@@ -32,6 +32,52 @@ def create_delta(fake_l):
     return dist
 
 
+def partial_digest(dna):
+    width = dna.m_L[-1]
+    dna.m_L.remove(width)
+    X = [0, width]
+    place(dna, X, width)
+
+
+def place(dna, X, width):
+    if not dna.m_L:
+        print(X)
+        dna.m_results.append(list(X))
+        return
+    y = dna.m_L[-1]
+    D = delta(y, X)
+    if set(D).issubset(dna.m_L):
+        X.append(y)
+        for i in D:
+            dna.m_L.remove(i)
+        X.sort()
+        place(dna, X, width)
+        X.remove(y)
+        for i in D:
+            dna.m_L.append(i)
+        dna.m_L.sort()
+    D = delta(width - y, X)
+    if set(D).issubset(dna.m_L):
+        X.append(width - y)
+        for i in D:
+            dna.m_L.remove(i)
+        X.sort()
+        place(dna, X, width)
+        X.remove(width - y)
+        for i in D:
+            dna.m_L.append(i)
+        dna.m_L.sort()
+    return
+
+
+def delta(y, X):
+    distances = []
+    for item in X:
+        distances.append(abs(item - y))
+    distances.sort()
+    return distances
+
+
 def find_string(dna, find_list):
     init_len = len(dna.m_L)
     found = 0
@@ -81,10 +127,15 @@ def main():
             brute_force(dna)
             print("--- %s seconds ---" % (time.time() - start_time))
             if dna.m_results:
-                Utils.write_file("results.txt", dna.m_results)
+                Utils.write_file("results_naive.txt", dna.m_results)
 
         elif mode == "partial_digest":
-            pass
+            print("PARTIAL DIGEST METHOD")
+            start_time = time.time()
+            partial_digest(dna)
+            print("--- %s seconds ---" % (time.time() - start_time))
+            if dna.m_results:
+                Utils.write_file("results_partial_digest.txt", dna.m_results)
 
     else:
         print("Invalid arguments")
