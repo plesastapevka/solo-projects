@@ -1,3 +1,7 @@
+##### Specific data files
+python_projects/sign_detection/data/
+tf_models/
+
 ##### Windows
 # Windows thumbnail cache files
 Thumbs.db
