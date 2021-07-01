@@ -14,7 +14,9 @@ class Utils:
     def write_file(path, data):
         try:
             file = open(path, "w")
-            file.write(data)
+            for i in data:
+                file.write(" ".join(map(str, i)) + "\n")
+            print("Done, results in " + path)
 
         except IOError:
             raise IOError
