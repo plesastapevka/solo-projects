@@ -40,32 +40,32 @@ def greedy(reg, index=0):
 
 def branch_bound(reg, index=0):
     if index >= reg.m_l:  # poiscemo vse variacije
-        current_ham_dist = reg.m_l * reg.m_t
+        current_hamming_dist = reg.m_l * reg.m_t
         cons_dist = 0
         for i in range(len(reg.m_nmer)):  # konsenz skozi vse n-mere
-            lowest_ham = reg.m_l  # min hamming razdalja
+            lowest_hamming = reg.m_l  # min hamming razdalja
             for off in range(reg.m_n - reg.m_l + 1):  # hamming med trenutnimi konsenzi in offseti
-                hamm_dist = 0
+                hamming_dist = 0
                 break_loop = False
                 for j in range(len(reg.m_cons_possible)):  # skozi vse mozne
                     if reg.m_cons_possible[j] != reg.m_nmer[i][off + j]:
-                        hamm_dist += 1
-                    if hamm_dist >= lowest_ham:  # ne rabimo vec dalje
+                        hamming_dist += 1
+                    if hamming_dist >= lowest_hamming:  # ne rabimo vec dalje
                         break_loop = True
                         break
                 if break_loop:
                     continue
-                lowest_ham = hamm_dist
+                lowest_hamming = hamming_dist
                 reg.m_off[i] = off
 
-            cons_dist += lowest_ham  # imamo najboljsi offset ze trenutni konsenz, sestevamo
-            if cons_dist >= current_ham_dist:
+            cons_dist += lowest_hamming  # imamo najboljsi offset ze trenutni konsenz, sestevamo
+            if cons_dist >= current_hamming_dist:
                 break
-        current_ham_dist = cons_dist
+        current_hamming_dist = cons_dist
 
         # ce je hammingova razdalja tega konsenza boljsa kot trenutni najboljsi, ga nastavimo
-        if current_ham_dist < reg.m_score_min:
-            reg.m_score_min = current_ham_dist
+        if current_hamming_dist < reg.m_score_min:
+            reg.m_score_min = current_hamming_dist
             reg.m_off_best = reg.m_off.copy()
             reg.m_cons_best = reg.m_cons_possible.copy()
         return
