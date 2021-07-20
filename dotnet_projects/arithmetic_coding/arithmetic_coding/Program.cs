@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Diagnostics;
+using System.IO;
 
 namespace arithmetic_coding
 {
@@ -17,17 +19,38 @@ namespace arithmetic_coding
             String fileOut = args[2];
 
             Encoder encoder = new Encoder(fileIn, fileOut);
-
+            Stopwatch sw = new Stopwatch();
+            long fileInSize, fileOutSize, compressionRatio;
+            
             switch (option)
             {
                 // Encode
                 case "c":
+                    sw.Start();
                     encoder.Encode();
+                    sw.Stop();
+                    Console.WriteLine($"Elapsed = {sw.Elapsed}");
+
+                    fileInSize = new FileInfo(fileIn).Length;
+                    fileOutSize = new FileInfo(fileOut).Length;
+                    compressionRatio = (fileOutSize * 100) / fileInSize;
+                    Console.WriteLine($"Input file size: {fileInSize}\n" +
+                                      $"Output file size: {fileOutSize}\n" +
+                                      $"Compression ratio: {compressionRatio}%");
                     break;
                 
                 // Decode
                 case "d":
+                    sw.Start();
                     encoder.Decode();
+                    sw.Stop();
+                    Console.WriteLine($"Elapsed = {sw.Elapsed}");
+                    fileInSize = new FileInfo(fileIn).Length;
+                    fileOutSize = new FileInfo(fileOut).Length;
+                    compressionRatio = (fileOutSize * 100) / fileInSize;
+                    Console.WriteLine($"Input file size: {fileInSize}\n" +
+                                      $"Output file size: {fileOutSize}\n" +
+                                      $"Compression ratio: {compressionRatio}%");
                     break;
                 
                 // Testing purposes, b for both (encode/decode)
