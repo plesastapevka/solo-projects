@@ -5,7 +5,7 @@ namespace arithmetic_coding
 {
     public class FileChars
     {
-        public byte Symbol { get; }
+        public byte Symbol { get; set; }
         public int Freq { get; set; }
         public int Low { get; set; }
         public int High { get; set; }
@@ -19,7 +19,7 @@ namespace arithmetic_coding
     }
     public class Table
     {
-        public List<FileChars> Elements { get; set; }
+        public List<FileChars> Elements { get; }
 
         public Table()
         {
@@ -43,7 +43,7 @@ namespace arithmetic_coding
                 }
             }
 
-            return (byte)0;
+            return 0;
         }
     }
 }
