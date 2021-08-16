@@ -94,7 +94,7 @@ namespace steganography
             return res;
         }
 
-        static Bitmap ReadImage(string path)
+        public static Bitmap ReadImage(string path)
         {
             try
             {
@@ -109,7 +109,7 @@ namespace steganography
             return null;
         }
 
-        static (int, int) CorrectImageDimensions(Bitmap img) //need divisable by 8
+        public static (int, int) CorrectImageDimensions(Bitmap img) //need divisable by 8
         {
             int nW = img.Width;
             int nH = img.Height;
@@ -126,7 +126,7 @@ namespace steganography
             return (nW, nH);
         }
 
-        static (int[,], int[,], int[,]) GetChannels(Bitmap img, int w, int h)
+        public static (int[,], int[,], int[,]) GetChannels(Bitmap img, int w, int h)
         {
             int[,] R = new int[w, h];
             int[,] G = new int[w, h];
@@ -158,12 +158,12 @@ namespace steganography
             return (R, G, B);
         }
 
-        static (int, int) SaveOriginalParams(Bitmap image)
+        public static (int, int) SaveOriginalParams(Bitmap image)
         {
             return (image.Width, image.Height);
         }
 
-        static (float[,,], float[,,], float[,,]) InitMatrices(int blockW, int blockH)
+        public static (float[,,], float[,,], float[,,]) InitMatrices(int blockW, int blockH)
         {
             float[,,] rBlocks = new float[8, 8, blockW * blockH];
             float[,,] gBlocks = new float[8, 8, blockW * blockH];
@@ -176,7 +176,7 @@ namespace steganography
             return (w / 8, h / 8);
         }
 
-        static void Blockify(int[,] R, int[,] G, int[,] B, float[,,] rMatrices, float[,,] gMatrices,
+        public static void Blockify(int[,] R, int[,] G, int[,] B, float[,,] rMatrices, float[,,] gMatrices,
             float[,,] bMatrices,
             int blockW, int blockH)
         {
@@ -254,7 +254,7 @@ namespace steganography
             }
         }
 
-        static (float[,,], float[,,], float[,,]) MultiplyHandle(float[,,] rMatrices, float[,,] gMatrices,
+        public static (float[,,], float[,,], float[,,]) MultiplyHandle(float[,,] rMatrices, float[,,] gMatrices,
             float[,,] bMatrices, int blockW, int blockH)
         {
             int count = blockH * blockW;
@@ -367,7 +367,7 @@ namespace steganography
             return lst;
         }
 
-        static List<List<float>> ZigZagManage(float[,,] rMatrices, float[,,] gMatrices, float[,,] bMatrices,
+        public static List<List<float>> ZigZagManage(float[,,] rMatrices, float[,,] gMatrices, float[,,] bMatrices,
             int count)
         {
             List<List<float>> res = new List<List<float>>();
@@ -409,7 +409,7 @@ namespace steganography
             return list;
         }
 
-        static void ThresholdQuantization(List<List<float>> l, int threshold)
+        public static void ThresholdQuantization(List<List<float>> l, int threshold)
         {
             int border = 64 - threshold - 1;
             for (int i = 0; i < l.Count; i++)
@@ -428,14 +428,14 @@ namespace steganography
             }
         }
 
-        static byte[] ToBytes(float[] nums)
+        public static byte[] ToBytes(float[] nums)
         {
             byte[] res = new byte[nums.Length * sizeof(float)];
             Buffer.BlockCopy(nums, 0, res, 0, res.Length);
             return res;
         }
 
-        static byte[] ToBytes(int[] nums)
+        public static byte[] ToBytes(int[] nums)
         {
             byte[] res = new byte[nums.Length * sizeof(int)];
             Buffer.BlockCopy(nums, 0, res, 0, res.Length);
@@ -493,11 +493,9 @@ namespace steganography
         {
             try
             {
-                using (var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write))
-                {
-                    fs.Write(byteArray, 0, byteArray.Length);
-                    return true;
-                }
+                using var fs = new FileStream(fileName, FileMode.Create, FileAccess.Write);
+                fs.Write(byteArray, 0, byteArray.Length);
+                return true;
             }
             catch (Exception ex)
             {
@@ -535,7 +533,7 @@ namespace steganography
             return (block1, block2);
         }
 
-        static (int, int, int, int, int, int, int, int, int, byte[]) RetrieveData(byte[] data)
+        public static (int, int, int, int, int, int, int, int, int, byte[]) RetrieveData(byte[] data)
         {
             byte[] h = new byte[4];
             byte[] w = new byte[4];
@@ -598,7 +596,7 @@ namespace steganography
             return res;
         }
 
-        static int[] ToInts(byte[] data)
+        public static int[] ToInts(byte[] data)
         {
             int counter = 0;
             int[] res = new int[data.Length / 4]; //float = 4 bytes
@@ -618,7 +616,7 @@ namespace steganography
             return res;
         }
 
-        static (List<float>, List<float>, List<float>) split_channels(int[] data)
+        public static (List<float>, List<float>, List<float>) SplitChannels(int[] data)
         {
             List<float> R = new List<float>();
             List<float> G = new List<float>();
@@ -644,7 +642,7 @@ namespace steganography
             return (R, G, B);
         }
 
-        static void zigzag_reverse(float[,,] matrix, List<float> list, int size)
+        static void ZigZagReverse(float[,,] matrix, List<float> list, int size)
         {
             int counter = 0;
             for (int i = 0; i < size; i++)
@@ -794,19 +792,19 @@ namespace steganography
             }
         }
 
-        static (float[,,], float[,,], float[,,], int usedSize) ReverseZigZagManage(List<float> R, List<float> G,
+        public static (float[,,], float[,,], float[,,], int usedSize) ReverseZigZagManage(List<float> R, List<float> G,
             List<float> B)
         {
             float[,,] rMatrices = new float[8, 8, R.Count / 64];
             float[,,] gMatrices = new float[8, 8, G.Count / 64];
             float[,,] bMatrices = new float[8, 8, B.Count / 64];
-            zigzag_reverse(rMatrices, R, R.Count / 64);
-            zigzag_reverse(gMatrices, G, G.Count / 64);
-            zigzag_reverse(bMatrices, B, B.Count / 64);
+            ZigZagReverse(rMatrices, R, R.Count / 64);
+            ZigZagReverse(gMatrices, G, G.Count / 64);
+            ZigZagReverse(bMatrices, B, B.Count / 64);
             return (rMatrices, gMatrices, bMatrices, R.Count / 64);
         }
 
-        static (float[,,], float[,,], float[,,]) reverse_multiply_handle(float[,,] rMatrices, float[,,] gMatrices,
+        public static (float[,,], float[,,], float[,,]) ReverseMultiplyHandle(float[,,] rMatrices, float[,,] gMatrices,
             float[,,] bMatrices, int count)
         {
             float[,,] rBlocks = new float[8, 8, count];
@@ -834,7 +832,7 @@ namespace steganography
             return (rBlocks, gBlocks, bBlocks);
         }
 
-        static (int[,], int[,], int[,]) AssembleChannels(float[,,] matricesR, float[,,] matricesG,
+        public static (int[,], int[,], int[,]) AssembleChannels(float[,,] matricesR, float[,,] matricesG,
             float[,,] matricesB,
             int originalW, int originalH, int blockW, int blockH)
         {
@@ -866,7 +864,7 @@ namespace steganography
             return (R, G, B);
         }
 
-        static Bitmap GenerateImage(int w, int h, int[,] R, int[,] G, int[,] B)
+        public static Bitmap GenerateImage(int w, int h, int[,] R, int[,] G, int[,] B)
         {
             Bitmap bmp = new Bitmap(w, h);
             for (int x = 0; x < h; x++)
@@ -891,7 +889,7 @@ namespace steganography
             return bmp;
         }
 
-        static void SaveImage(Bitmap image, string name)
+        public static void SaveImage(Bitmap image, string name)
         {
             image.Save(name);
         }
@@ -933,7 +931,7 @@ namespace steganography
             return bitsList;
         }
 
-        static int[] F5(List<List<float>> l, int N, int M, string message)
+        public static int[] F5(List<List<float>> l, int N, int M, string message)
         {
             int msgLen = message.Length;
             Random rand = new Random(M * N);
@@ -1032,7 +1030,7 @@ namespace steganography
             return res;
         }
 
-        static string ReverseF5(int[] nums, int M, int N)
+        public static string ReverseF5(int[] nums, int M, int N)
         {
             Random rand = new Random(M * N);
             List<List<int>> l = new List<List<int>>();
@@ -1151,18 +1149,18 @@ namespace steganography
             return ret;
         }
 
-        static string ReadTxtFile(string name)
+        static public string ReadTxtFile(string name)
         {
             string text = File.ReadAllText(name);
             return text;
         }
 
-        static void WriteTxtFile(string file, string text)
+        public static void WriteTxtFile(string file, string text)
         {
             File.WriteAllText(file, text);
         }
 
-        static bool LimitMsGlength(String message, int wBlock, int hBlock, int N, int M)
+        public static bool LimitMsgLength(String message, int wBlock, int hBlock, int N, int M)
         {
             //v vsakem blocku M trojic, vsaki ma na voljo 1 bit
             int len = message.Length;
