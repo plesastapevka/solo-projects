@@ -9,48 +9,48 @@ TEST_DATA = "data/DNK.txt"
 
 
 def greedy(reg, index=0):
-    if index >= reg.m_t:  # poiscemo vse variacije, za vsako vrstico vse mozne zamike
-        profile_score = 0  # profil oz score trenutnega okna
+    if index >= reg.m_t:  # find all variations
+        profile_score = 0  # score of current profile
         for i in range(reg.m_l):
             reg.m_gene_count = [0] * len(reg.m_gene_type)
-            for j in range(len(reg.m_nmer)):  # za vsaki nmer...
-                for occ in range(len(reg.m_gene_type)):  # za vse mozne crke (ATGC)
-                    # ugotovimo kateri znak je na trenutnem mestu
+            for j in range(len(reg.m_nmer)):  # for each nmer
+                for occ in range(len(reg.m_gene_type)):  # for ATGC
+                    # get current character
                     if reg.m_nmer[j][reg.m_off[j] + i] == reg.m_gene_type[occ]:
-                        reg.m_gene_count[occ] += 1  # povecamo na tistem indexu
+                        reg.m_gene_count[occ] += 1  # increment index
                         break
-            max_tmp = 0  # najdemo maximalno v rezultatu pa dodamo k profilu
-            for j in range(len(reg.m_gene_count)):  # najdemo najboljso crko po pojavitvi
+            max_tmp = 0  # find max, add to profile
+            for j in range(len(reg.m_gene_count)):  # find best letter based on occurence
                 if reg.m_gene_count[j] > max_tmp:
                     max_tmp = reg.m_gene_count[j]
                     reg.m_cons_possible[i] = reg.m_gene_type[j]
             profile_score += max_tmp
 
-        if profile_score > reg.m_score_max:  # ce je bolsi ko prejsni ga nastavimo
+        if profile_score > reg.m_score_max:  # set if better
             reg.m_score_max = profile_score
             reg.m_off_best = reg.m_off.copy()
             reg.m_cons_best = reg.m_cons_possible.copy()
         return
     else:
-        for i in range(reg.m_n - reg.m_l + 1):  # izberi nmer na odmiku 1 do n-l+1...
+        for i in range(reg.m_n - reg.m_l + 1):  # 1 - n-l+1...
             reg.m_off[index] = i
-            greedy(reg, index + 1)  # rekurzivno dalje
+            greedy(reg, index + 1)  # recursion
         return
 
 
 def branch_bound(reg, index=0):
-    if index >= reg.m_l:  # poiscemo vse variacije
+    if index >= reg.m_l:  # find all variations
         current_hamming_dist = reg.m_l * reg.m_t
         cons_dist = 0
-        for i in range(len(reg.m_nmer)):  # konsenz skozi vse n-mere
-            lowest_hamming = reg.m_l  # min hamming razdalja
-            for off in range(reg.m_n - reg.m_l + 1):  # hamming med trenutnimi konsenzi in offseti
+        for i in range(len(reg.m_nmer)):  # consensus of all nmers
+            lowest_hamming = reg.m_l  # min hamming
+            for off in range(reg.m_n - reg.m_l + 1):  # hamming between current consensus and offsets
                 hamming_dist = 0
                 break_loop = False
-                for j in range(len(reg.m_cons_possible)):  # skozi vse mozne
+                for j in range(len(reg.m_cons_possible)):
                     if reg.m_cons_possible[j] != reg.m_nmer[i][off + j]:
                         hamming_dist += 1
-                    if hamming_dist >= lowest_hamming:  # ne rabimo vec dalje
+                    if hamming_dist >= lowest_hamming:  # stop
                         break_loop = True
                         break
                 if break_loop:
@@ -58,12 +58,11 @@ def branch_bound(reg, index=0):
                 lowest_hamming = hamming_dist
                 reg.m_off[i] = off
 
-            cons_dist += lowest_hamming  # imamo najboljsi offset ze trenutni konsenz, sestevamo
+            cons_dist += lowest_hamming  # best offset for current consensus, sum
             if cons_dist >= current_hamming_dist:
                 break
         current_hamming_dist = cons_dist
 
-        # ce je hammingova razdalja tega konsenza boljsa kot trenutni najboljsi, ga nastavimo
         if current_hamming_dist < reg.m_score_min:
             reg.m_score_min = current_hamming_dist
             reg.m_off_best = reg.m_off.copy()
@@ -80,8 +79,7 @@ def main():
     try:
         opts, args = getopt.getopt(sys.argv[1:], "f:m:n:l:t:h")
     except getopt.GetoptError as err:
-        print(err)  # will print something like "option -a not recognized"
-        print("...py -n X -l Y -t Z -f INPUT.txt")
+        print(err)
         sys.exit(2)
 
     t = None
@@ -110,6 +108,10 @@ def main():
         print("Error in passed arguments")
         exit(1)
 
+    if t > 5 or t < 2:
+        print("Argument t should be between 2 and 5")
+        exit(1)
+
     if l > 10 or l < 2:
         print("Argument l should be between 2 and 10")
         exit(1)
@@ -117,17 +119,6 @@ def main():
     if n > 100 or n < l:
         print("Argument n should be between l and 100")
         exit(1)
-
-    if t > 5 or t < 2:
-        print("Argument t should be between 2 and 5")
-        exit(1)
-
-    # print(f"Starting with arguments:\n"
-    #       f"t: {t}\n"
-    #       f"l: {l}\n"
-    #       f"n: {n}\n"
-    #       f"input_file: {input_file}\n"
-    #       f"mode: {mode}\n")
 
     data = Utils.read_file(input_file)
     reg = Reg(l, t, n, data)
@@ -156,9 +147,10 @@ def main():
         print("Invalid mode.")
         exit(1)
 
-    print(f"{mode} finished in {end - start} seconds")
-    print(f"Found consensus: ")
+    print(f"{mode} finished in {round((end - start) * 1000)} miliseconds")
+    print(f"Consensus: ")
     reg.print_cons()
+    print("\n")
 
 
 if __name__ == '__main__':

@@ -17,7 +17,7 @@ class Utils:
             file = open(path, "w")
             for i in data:
                 file.write(" ".join(map(str, i)) + "\n")
-            print("Done, results in " + path)
+            print(f"Results written to {path}")
             file.close()
 
         except IOError:
