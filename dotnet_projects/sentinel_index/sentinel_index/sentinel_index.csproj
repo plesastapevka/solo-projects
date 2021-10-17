@@ -11,6 +11,7 @@
 
     <ItemGroup>
       <PackageReference Include="Aspose.Imaging" Version="21.10.0" />
+      <PackageReference Include="OpenJpegDotNet" Version="2.4.0.20210725" />
     </ItemGroup>
 
 </Project>
