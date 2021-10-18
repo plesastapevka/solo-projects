@@ -1,16 +1,27 @@
-# This is a sample Python script.
-
-# Press ⌃R to execute it or replace it with your code.
-# Press Double ⇧ to search everywhere for classes, files, tool windows, actions, and settings.
-
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press ⌘F8 to toggle the breakpoint.
+import rasterio
+import numpy as np
+from matplotlib import pyplot as plt
+from rasterio import plot
 
 
-# Press the green button in the gutter to run the script.
+def read_file(number):
+    data = rasterio.open("T33TWM_20211009T095029_B" + number + ".jp2")
+    return data.read(1)
+
+
+def calculate_EVI(band_2, band_4, band_8):
+    EVI = np.float32(2.5 * (band_8 - band_4) / ((band_8 + 6.0 * band_4 - 7.5 * band_2) + 1.0))
+    return EVI
+
+
+def main():
+    band_2 = read_file("02")
+    band_4 = read_file("04")
+    band_8 = read_file("08")
+    EVI = calculate_EVI(band_2, band_4, band_8)
+    plt.imshow(EVI, clim=(-5, 5))
+    plt.show()
+
+
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    main()
