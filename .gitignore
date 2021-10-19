@@ -1,6 +1,7 @@
 ##### Specific data files
 python_projects/sign_detection/data/
 tf_models/
+python_projects/sentinel_index/data/
 
 ##### Windows
 # Windows thumbnail cache files
