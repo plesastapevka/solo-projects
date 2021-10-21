@@ -1,7 +1,6 @@
 import rasterio
 import numpy as np
 from matplotlib import pyplot as plt
-from rasterio import plot
 
 
 def read_file(number):
@@ -85,19 +84,19 @@ def main():
     plt.imsave("MSI.tiff", MSI, vmin=0, vmax=3)
 
     plt.title("NDWI")
-    plt.imshow(NDWI, clim=(0, 1))
+    plt.imshow(NDWI, clim=(0, 50))
     plt.show()
-    plt.imsave("NDWI.tiff", NDWI, vmin=0, vmax=1)
+    plt.imsave("NDWI.tiff", NDWI, vmin=0, vmax=50)
 
     plt.title("NDBI")
-    plt.imshow(NDBI, clim=(0, 1))
+    plt.imshow(NDBI, clim=(0, 50))
     plt.show()
-    plt.imsave("NDBI.tiff", NDBI, vmin=0, vmax=1)
+    plt.imsave("NDBI.tiff", NDBI, vmin=0, vmax=50)
 
     plt.title("NDMI")
-    plt.imshow(NDMI, clim=(-1, 1))
+    plt.imshow(NDMI, clim=(0, 50))
     plt.show()
-    plt.imsave("NDMI.tiff", NDMI, vmin=-1, vmax=1)
+    plt.imsave("NDMI.tiff", NDMI, vmin=0, vmax=50)
 
 
 if __name__ == '__main__':
