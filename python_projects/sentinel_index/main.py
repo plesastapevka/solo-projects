@@ -65,26 +65,39 @@ def main():
     NDMI = calculate_NDMI(band_8, band_9)
 
     plt.title("EVI")
-    plt.imshow(EVI, clim=(-5, 5))
+    plt.imshow(EVI, clim=(-1, 1))
     plt.show()
+    plt.imsave("EVI.tiff", EVI, vmin=-1, vmax=1)
+
     plt.title("NDVI")
-    plt.imshow(NDVI, clim=(-5, 5))
+    plt.imshow(NDVI, clim=(-1, 1))
     plt.show()
+    plt.imsave("NDVI.tiff", NDVI, vmin=-1, vmax=1)
+
     plt.title("GNDVI")
-    plt.imshow(GNDVI, clim=(-5, 5))
+    plt.imshow(GNDVI, clim=(0, 1))
     plt.show()
+    plt.imsave("GNDVI.tiff", GNDVI, vmin=0, vmax=1)
+
     plt.title("MSI")
-    plt.imshow(MSI, clim=(-5, 5))
+    plt.imshow(MSI, clim=(0, 3))
     plt.show()
+    plt.imsave("MSI.tiff", MSI, vmin=0, vmax=3)
+
     plt.title("NDWI")
-    plt.imshow(NDWI)
+    plt.imshow(NDWI, clim=(0, 1))
     plt.show()
+    plt.imsave("NDWI.tiff", NDWI, vmin=0, vmax=1)
+
     plt.title("NDBI")
-    plt.imshow(NDBI)
+    plt.imshow(NDBI, clim=(0, 1))
     plt.show()
+    plt.imsave("NDBI.tiff", NDBI, vmin=0, vmax=1)
+
     plt.title("NDMI")
-    plt.imshow(NDMI)
+    plt.imshow(NDMI, clim=(-1, 1))
     plt.show()
+    plt.imsave("NDMI.tiff", NDMI, vmin=-1, vmax=1)
 
 
 if __name__ == '__main__':
