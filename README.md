@@ -30,6 +30,7 @@ This repository consists of mulitple projects - from x86 ASM to Python and C# an
 * [ICP](python_projects/computer_vision_ICP)
 * [Bayer Preprocessing](python_projects/computer_vision_bayer)
 * [Segmentation](python_projects/computer_vision_segmentation)
+* [Nearest Neighbor and Bilinear interpolation](/python_projects/interpolation)
 * [Topological Sort](python_projects/topo_sort)
 * [Hopcroft-Karp](python_projects/hopcroft_karp)
 
