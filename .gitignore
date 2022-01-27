@@ -3,6 +3,9 @@ python_projects/sign_detection/data/
 tf_models/
 python_projects/sentinel_index/data/
 
+##### JPEG2000
+*.jp2
+
 ##### Windows
 # Windows thumbnail cache files
 Thumbs.db
