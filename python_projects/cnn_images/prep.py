@@ -10,6 +10,7 @@ import os
 window = (256, 256)
 sample_per_image = 800
 
+# creating a mask
 diag = int((2*window[0]**2+2*window[1]**2)**0.5+0.5)
 int_mask = np.ones((diag, diag, 1))
 int_mask[diag//2:, :] += 1
@@ -22,6 +23,7 @@ out_wd = 'samples/'
 
 file_count = 0
 print('Generating samples')
+# iterate through all the samples ready for augmentation
 for filename in os.listdir(current_wd):
     print('file:', filename)
     try:
@@ -29,12 +31,15 @@ for filename in os.listdir(current_wd):
     except:
         pass
     for i in range(sample_per_image):
+        # choose random point in the image
         image = plt.imread(current_wd + filename) / 255
         x = np.random.randint(0, image.shape[0] - window[0])
         y = np.random.randint(0, image.shape[1] - window[1])
         sample = image[x:x+window[0], y:y+window[1]]
+        # random rotation
         rotation = np.random.randint(0, 360)
         int_mask_rot = ndimage.rotate(int_mask, rotation, reshape=False)
+        # cut out the mask
         top = (diag-window[0])//2
         left = (diag-window[1])//2
         top_shift = np.random.randint(0, window[0] / 2)
@@ -49,6 +54,7 @@ for filename in os.listdir(current_wd):
         sample2 = sample*int_mask_rot_cut*v2
         sample3 = sample*int_mask_rot_cut*v3
 
+        # appropriately clip the pixel values
         sample1 = np.uint8(np.maximum(np.minimum(sample1, 1), 0)*255)/255.
         sample2 = np.uint8(np.maximum(np.minimum(sample2, 1), 0)*255)/255.
         sample3 = np.uint8(np.maximum(np.minimum(sample3, 1), 0)*255)/255.
