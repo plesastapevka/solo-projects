@@ -1,1 +1,1 @@
-# vaja05_pygame_inverseKinematics
+# Inverse kinematics

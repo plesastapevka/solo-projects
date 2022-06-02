@@ -16,7 +16,7 @@ class Game:
         self.target = None
         pygame.init()
         self.screen = pygame.display.set_mode((manager.width, manager.height))
-        pygame.display.set_caption('vaja05-Inverse_kinematics')
+        pygame.display.set_caption('Inverse kinematics')
         self.canvas = Canvas(manager.width, manager.height)
 
     def __del__(self):
